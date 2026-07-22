@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tourney:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#EFE7D2;}
+body{overflow-x:hidden;}
+a{color:#2A1B0B;text-decoration:none;}
+a:hover{color:#B98A00;}
+::selection{background:#F2B41B;color:#2A1B0B;}
+@keyframes grainShift{0%{transform:translate(0,0)}25%{transform:translate(-38px,22px)}50%{transform:translate(26px,-32px)}75%{transform:translate(-18px,-12px)}100%{transform:translate(0,0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes pulseGold{0%{box-shadow:0 0 0 0 rgba(242,180,27,.75)}100%{box-shadow:0 0 0 24px rgba(242,180,27,0)}}
+</style>
+</helmet>
+<div style="background:#EFE7D2; color:#2A1B0B; font-family:'Space Grotesk',sans-serif; overflow-x:clip; position:relative;">
+  <div id="grain" style="position:fixed; inset:-90px; z-index:1200; pointer-events:none; opacity:0.07; mix-blend-mode:multiply; background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>&quot;); background-repeat:repeat; animation:grainShift .7s steps(2,end) infinite;" data-anim="1"></div>
+  <div style="position:fixed; top:0; left:0; right:0; z-index:1100; height:3px; background:rgba(42,27,11,.12);"><div id="pbar" style="height:100%; width:0%; background:#F2B41B; border-right:2px solid #2A1B0B;"></div></div>
+  <nav style="position:fixed; top:3px; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:rgba(239,231,210,.82); backdrop-filter:blur(8px); border-bottom:2px solid #2A1B0B;">
+    <a href="GenG.dc.html" style="font-family:'Tourney',sans-serif; font-weight:900; font-size:15px; letter-spacing:.06em;">GEN.G <span style="color:#B98A00;">//</span> ACADEMY</a>
+    <div style="display:flex; gap:26px; align-items:center; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em;">
+      <a href="GenG.dc.html" style-hover="color:#B98A00;">HOME</a>
+      <div style="position:relative;" onMouseEnter="{{ddOn}}" onMouseLeave="{{ddOff}}">
+        <a href="Teams.dc.html#lck" style-hover="color:#B98A00;">TEAMS ▾</a>
+        <div style="display:{{ddDisp}}; position:absolute; top:100%; left:50%; transform:translateX(-50%); padding-top:12px;">
+          <div style="background:#EFE7D2; border:2px solid #2A1B0B; box-shadow:5px 5px 0 #2A1B0B; display:flex; flex-direction:column; min-width:220px;">
+            <a href="Teams.dc.html#lck" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">LCK</a>
+            <a href="Teams.dc.html#challengers" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">LCK CHALLENGERS</a>
+            <a href="Teams.dc.html#valorant" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">VALORANT</a>
+            <a href="Teams.dc.html#racing" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">MOBIL1 RACING</a>
+            <a href="Teams.dc.html#pubg-mobile" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">PUBG MOBILE</a>
+            <a href="Teams.dc.html#pubg" style="padding:11px 16px;" style-hover="background:#F2B41B;">PUBG</a>
+          </div>
+        </div>
+      </div>
+      <a href="Practicum.dc.html" style-hover="color:#B98A00;">PRACTICUM</a>
+      <a href="Bootcamp.dc.html" style-hover="color:#B98A00;">BOOTCAMP</a>
+      <a href="#apply" data-t="apply" onClick="{{goTo}}" style="background:#F2B41B; border:2px solid #2A1B0B; padding:6px 14px; box-shadow:3px 3px 0 #2A1B0B; cursor:pointer;" style-hover="transform:translate(-2px,-2px); box-shadow:5px 5px 0 #2A1B0B;">APPLY ★</a>
+    </div>
+  </nav>
+
+  <div id="top" data-screen-label="Hero — GenRang deploy" style="height:300vh; position:relative;">
+    <div style="position:sticky; top:0; height:100vh; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+      <div id="mapLayer" style="position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; opacity:0; transform:scale(.84);">
+        <div style="position:relative; width:min(88vmin,640px); height:min(88vmin,640px);">
+          <canvas id="lowpoly" style="position:absolute; inset:0; width:100%; height:100%; display:block; border:3px solid #2A1B0B; box-shadow:10px 10px 0 rgba(42,27,11,.25); background:#E7DCC0;"></canvas>
+          <div style="position:absolute; inset:7%; border:1.5px dashed rgba(42,27,11,.4); border-radius:50%; pointer-events:none;"></div>
+          <div style="position:absolute; left:50%; top:3%; bottom:3%; width:1px; background:rgba(42,27,11,.18); pointer-events:none;"></div>
+          <div style="position:absolute; top:50%; left:3%; right:3%; height:1px; background:rgba(42,27,11,.18); pointer-events:none;"></div>
+          <div data-mstep="0" style="position:absolute; left:6%; top:4%; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.12em; opacity:0;">37.4979° N — 127.0276° E</div>
+          <div data-mstep="0" style="position:absolute; right:6%; top:4%; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.12em; opacity:0;">SECTOR: GANGNAM-GU</div>
+          <div data-mstep="4" style="position:absolute; right:4%; bottom:3.5%; font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.12em; opacity:0; background:#2A1B0B; color:#EFE7D2; padding:5px 10px; border:2px solid #F2B41B;">SEOUL CAMPUS ★ EST. 2016</div>
+          <div data-mstep="1" style="position:absolute; left:20%; top:40%; opacity:0; display:flex; align-items:center; gap:8px;">
+            <div style="width:9px; height:9px; background:#2A1B0B; border-radius:50%;"></div>
+            <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em;">HONGDAE</div>
+          </div>
+          <div data-mstep="2" style="position:absolute; left:56%; top:41%; opacity:0; display:flex; align-items:center; gap:8px;">
+            <div style="width:9px; height:9px; background:#2A1B0B; border-radius:50%;"></div>
+            <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em;">SEONGSU</div>
+          </div>
+          <div data-mstep="2" style="position:absolute; left:69%; top:64%; opacity:0; display:flex; align-items:center; gap:8px;">
+            <div style="width:9px; height:9px; background:#2A1B0B; border-radius:50%;"></div>
+            <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.1em;">JAMSIL ARENA</div>
+          </div>
+          <div data-mstep="3" style="position:absolute; left:42%; top:67%; opacity:0; display:flex; align-items:center; gap:10px;">
+            <div data-anim="1" style="width:16px; height:16px; background:#F2B41B; border:3px solid #2A1B0B; border-radius:50%; animation:pulseGold 1.6s ease-out infinite;"></div>
+            <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.1em; background:#2A1B0B; color:#F2B41B; padding:5px 10px;">GEN.G ACADEMY HQ ★</div>
+          </div>
+        </div>
+      </div>
+      <div id="heroTitle" style="position:absolute; inset:0; z-index:1; display:flex; flex-direction:column; align-items:flex-start; justify-content:center; text-align:left; padding-left:max(6vw, calc(50vw - 620px)); pointer-events:none;">
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.3em; margin-bottom:18px;">GEN.G GLOBAL ESPORTS ACADEMY — SEOUL, KR</div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(58px,12.5vw,178px); line-height:.88; color:transparent; -webkit-text-stroke:3px #2A1B0B;">GEN.G</div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(40px,8.2vw,118px); line-height:1; color:#F2B41B; -webkit-text-stroke:2.5px #2A1B0B; text-shadow:6px 6px 0 rgba(42,27,11,.18);">ACADEMY</div>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; margin-top:26px; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em;">
+          <div style="border:2px solid #2A1B0B; background:#EFE7D2; padding:7px 14px; box-shadow:3px 3px 0 #2A1B0B;">HIGHER EDUCATION</div>
+          <div style="border:2px solid #2A1B0B; background:#F2B41B; padding:7px 14px; box-shadow:3px 3px 0 #2A1B0B;">INTENSIVE TRAINING</div>
+          <div style="border:2px solid #2A1B0B; background:#2A1B0B; color:#F2B41B; padding:7px 14px; box-shadow:3px 3px 0 rgba(42,27,11,.35);">A ROAD TO PRO ★</div>
+        </div>
+      </div>
+      <div id="mascotWrap" style="position:absolute; right:max(4vw, calc(50vw - 640px)); top:50%; transform:translateY(-50%); transform-origin:center right; z-index:2; width:340px; height:460px; will-change:transform;">
+      <div id="tileBox" style="position:relative; width:340px; height:460px;">
+        <div style="position:absolute; top:-10px; right:-6px; background:#2A1B0B; color:#F2B41B; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; padding:8px 12px; transform:rotate(6deg); border:2px solid #F2B41B; white-space:nowrap;">안녕! GenRang here ★</div>
+        <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="12">
+          <div data-tile="1" data-dx="{{ t.dx }}" data-dy="{{ t.dy }}" data-del="{{ t.del }}" style="position:absolute; left:{{ t.left }}px; top:{{ t.top }}px; width:{{ t.w }}px; height:{{ t.h }}px; background-image:url('{{ t.img }}'); background-size:340px 460px; background-position:{{ t.bx }}px {{ t.by }}px; background-repeat:no-repeat; will-change:transform,opacity;"></div>
+        </sc-for>
+      </div>
+      </div>
+      <div id="heroHint" style="position:absolute; bottom:26px; left:0; right:0; z-index:3; text-align:center; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.2em;">▼ SCROLL — GENRANG DEPLOYS THE MAP</div>
+    </div>
+  </div>
+
+  <section data-screen-label="Mission" style="padding:120px 28px 110px; max-width:1180px; margin:0 auto;">
+    <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:26px;">00 — THE ACADEMY</div>
+    <div style="display:grid; grid-template-columns:1.35fr 1fr; gap:56px; align-items:end;">
+      <div>
+        <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(42px,6.4vw,84px); line-height:.95; color:transparent; -webkit-text-stroke:2.5px #2A1B0B;">STUDENTS ARRIVE.</div>
+        <div data-rv="1" data-d="120" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(42px,6.4vw,84px); line-height:.95; color:#2A1B0B;">PROS LEAVE<span style="color:#F2B41B; -webkit-text-stroke:2px #2A1B0B;">.</span></div>
+        <p data-rv="1" data-d="240" style="opacity:0; transform:translateY(26px); font-size:19px; line-height:1.6; max-width:56ch; margin:34px 0 0; text-wrap:pretty;">GenG Global Esports Academy is a full higher-education institution in the heart of Seoul's esports district. Students earn an accredited esports degree while training inside Korean scrim culture — structured blocks, honest reviews, coaches who have stood on stage. And for the ones who prove it, there's a road straight onto a pro roster.</p>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <div data-rv="1" data-d="200" style="opacity:0; transform:translateY(26px); display:flex; gap:14px; align-items:center; border:2px solid #2A1B0B; background:#E7DCC0; padding:16px 18px; box-shadow:5px 5px 0 #2A1B0B;">
+          <div style="width:14px; height:14px; background:#F2B41B; border:2px solid #2A1B0B;"></div>
+          <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.04em;">ACCREDITED ESPORTS CURRICULUM</div>
+        </div>
+        <div data-rv="1" data-d="320" style="opacity:0; transform:translateY(26px); display:flex; gap:14px; align-items:center; border:2px solid #2A1B0B; background:#E7DCC0; padding:16px 18px; box-shadow:5px 5px 0 #2A1B0B;">
+          <div style="width:14px; height:14px; background:#F2B41B; border:2px solid #2A1B0B;"></div>
+          <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.04em;">DAILY SCRIMS + VOD REVIEW WITH PROS</div>
+        </div>
+        <div data-rv="1" data-d="440" style="opacity:0; transform:translateY(26px); display:flex; gap:14px; align-items:center; border:2px solid #2A1B0B; background:#E7DCC0; padding:16px 18px; box-shadow:5px 5px 0 #2A1B0B;">
+          <div style="width:14px; height:14px; background:#F2B41B; border:2px solid #2A1B0B;"></div>
+          <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.04em;">A PRO PATHWAY INTO GEN.G ROSTERS</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div data-screen-label="Marquee" style="background:#F2B41B; border-top:2px solid #2A1B0B; border-bottom:2px solid #2A1B0B; overflow:hidden; padding:16px 0;">
+    <div data-anim="1" style="display:flex; width:max-content; animation:marquee 20s linear infinite; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:22px; letter-spacing:.1em; white-space:nowrap;">
+      <div style="display:flex; gap:26px; padding-right:26px; align-items:center;"><span>STUDY</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">TRAIN</span><span>GO PRO</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">STUDY</span><span>TRAIN</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">GO PRO</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span></div>
+      <div style="display:flex; gap:26px; padding-right:26px; align-items:center;"><span>STUDY</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">TRAIN</span><span>GO PRO</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">STUDY</span><span>TRAIN</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">GO PRO</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span></div>
+    </div>
+  </div>
+
+  <section id="programs" data-screen-label="Programs" style="padding:120px 28px 130px; max-width:1180px; margin:0 auto; position:relative;">
+    <div style="position:absolute; right:8px; top:-64px; width:190px; pointer-events:none;">
+      <div data-par="-0.06"><img data-anim="1" src="assets/genrang-cheer.png" alt="GenRang cheering with pompoms" style="width:100%; display:block; animation:floaty 4.2s ease-in-out infinite;"></div>
+    </div>
+    <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:26px;">01 — PROGRAMS</div>
+    <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(40px,6vw,78px); line-height:.95; margin-bottom:64px;">PICK YOUR <span style="color:transparent; -webkit-text-stroke:2.5px #2A1B0B;">TRACK</span></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:30px;">
+      <div data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:30px 28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:18px;" style-hover="background:#F5EBD2;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:#B98A00;">TRACK.01</div>
+          <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#F2B41B; border:2px solid #2A1B0B; padding:3px 8px;">DEGREE</div>
+        </div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:26px; line-height:1.05;">HIGHER EDUCATION</div>
+        <p style="margin:0; font-size:15.5px; line-height:1.55; text-wrap:pretty;">A two-year accredited program in the business and craft of esports — for careers on and off the stage.</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-family:'Space Mono',monospace; font-size:12.5px; border-top:2px dashed rgba(42,27,11,.4); padding-top:16px;">
+          <div>★ Management, coaching + broadcast tracks</div>
+          <div>★ Faculty of ex-pros and industry staff</div>
+          <div>★ Internships across GenG departments</div>
+          <div>★ Career placement on graduation</div>
+        </div>
+        <a href="#apply" data-t="apply" onClick="{{goTo}}" style="margin-top:auto; font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; cursor:pointer;" style-hover="color:#B98A00;">APPLY →</a>
+      </div>
+      <div data-rv="1" data-d="140" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:30px 28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:18px;" style-hover="background:#F5EBD2;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:#B98A00;">TRACK.02</div>
+          <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#8FC9F2; border:2px solid #2A1B0B; padding:3px 8px;">FULL-TIME</div>
+        </div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:26px; line-height:1.05;">INTENSIVE TRAINING</div>
+        <p style="margin:0; font-size:15.5px; line-height:1.55; text-wrap:pretty;">Year-round competitive training inside Korean scrim culture — for players chasing their ceiling.</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-family:'Space Mono',monospace; font-size:12.5px; border-top:2px dashed rgba(42,27,11,.4); padding-top:16px;">
+          <div>★ 2× daily scrims vs KR academy rosters</div>
+          <div>★ Data-backed VOD review, daily</div>
+          <div>★ 1:1 mechanics lab</div>
+          <div>★ Housing + meals on campus</div>
+        </div>
+        <a href="#apply" data-t="apply" onClick="{{goTo}}" style="margin-top:auto; font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; cursor:pointer;" style-hover="color:#B98A00;">APPLY →</a>
+      </div>
+      <div data-rv="1" data-d="280" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:30px 28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:18px;" style-hover="background:#F5EBD2;">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; color:#B98A00;">TRACK.03</div>
+          <div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#EFE7D2; border:2px solid #2A1B0B; padding:3px 8px;">BY SELECTION</div>
+        </div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:26px; line-height:1.05;">PRO PATHWAY</div>
+        <p style="margin:0; font-size:15.5px; line-height:1.55; text-wrap:pretty;">The option to go professional. Standouts from either track are scouted straight into the GenG pipeline.</p>
+        <div style="display:flex; flex-direction:column; gap:10px; font-family:'Space Mono',monospace; font-size:12.5px; border-top:2px dashed rgba(42,27,11,.4); padding-top:16px;">
+          <div>★ Year-round scouting by academy staff</div>
+          <div>★ Trials with GenG Challengers</div>
+          <div>★ Contract + agent guidance</div>
+          <div>★ Stage-sim finals day</div>
+        </div>
+        <a href="#apply" data-t="apply" onClick="{{goTo}}" style="margin-top:auto; font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; cursor:pointer;" style-hover="color:#B98A00;">EARN IT →</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="schedule" data-screen-label="Daily protocol + stats" style="background:#2A1B0B; color:#EFE7D2; border-top:2px solid #2A1B0B; padding:120px 28px 110px;">
+    <div style="max-width:1180px; margin:0 auto; position:relative;">
+      <div style="position:absolute; right:-6px; top:120px; width:200px; pointer-events:none;">
+        <div data-par="-0.05"><img data-anim="1" src="assets/genrang-dab.png" alt="GenRang dabbing" style="width:100%; display:block; animation:floaty 5s ease-in-out infinite;"></div>
+      </div>
+      <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#F2B41B; margin-bottom:26px;">02 — DAILY PROTOCOL</div>
+      <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(40px,6vw,78px); line-height:.95; margin-bottom:64px;">ONE DAY <span style="color:transparent; -webkit-text-stroke:2.5px #F2B41B;">ON CAMPUS</span></div>
+      <div style="display:flex; flex-direction:column; max-width:820px;">
+        <div data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0; border-bottom:1px dashed rgba(239,231,210,.35);">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">09:30</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">FUEL</div><div style="opacity:.85; font-size:15px;">Breakfast at the team house.</div>
+        </div>
+        <div data-rv="1" data-d="70" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0; border-bottom:1px dashed rgba(239,231,210,.35);">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">10:30</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">LECTURE</div><div style="opacity:.85; font-size:15px;">Coursework block — esports management, game theory, broadcast.</div>
+        </div>
+        <div data-rv="1" data-d="140" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0; border-bottom:1px dashed rgba(239,231,210,.35);">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">13:00</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">SCRIM BLOCK I</div><div style="opacity:.85; font-size:15px;">Three sets vs KR academy rosters.</div>
+        </div>
+        <div data-rv="1" data-d="210" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0; border-bottom:1px dashed rgba(239,231,210,.35);">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">16:00</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">LAB</div><div style="opacity:.85; font-size:15px;">1:1 coaching + mechanics drills.</div>
+        </div>
+        <div data-rv="1" data-d="280" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0; border-bottom:1px dashed rgba(239,231,210,.35);">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">17:30</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">SCRIM BLOCK II</div><div style="opacity:.85; font-size:15px;">Run it back. Fix it live.</div>
+        </div>
+        <div data-rv="1" data-d="350" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0; border-bottom:1px dashed rgba(239,231,210,.35);">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">20:30</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">DEBRIEF</div><div style="opacity:.85; font-size:15px;">VOD review, data pack drop, goals for tomorrow.</div>
+        </div>
+        <div data-rv="1" data-d="420" style="opacity:0; transform:translateY(26px); display:grid; grid-template-columns:110px 190px 1fr; gap:20px; align-items:baseline; padding:16px 0;">
+          <div style="font-family:'Space Mono',monospace; font-weight:700; color:#F2B41B;">22:00</div><div style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px;">FREE QUEUE</div><div style="opacity:.85; font-size:15px;">Ladder time. GenRang supervises.</div>
+        </div>
+      </div>
+      <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:28px; margin-top:100px; border-top:2px solid rgba(239,231,210,.3); padding-top:56px;">
+        <div data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px);">
+          <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#F2B41B;"><span data-count="6">0</span></div>
+          <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">GAME TITLES SUPPORTED</div>
+        </div>
+        <div data-rv="1" data-d="120" style="opacity:0; transform:translateY(26px);">
+          <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#F2B41B;"><span data-count="500">0</span>+</div>
+          <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">SCRIM HOURS PER SEMESTER</div>
+        </div>
+        <div data-rv="1" data-d="240" style="opacity:0; transform:translateY(26px);">
+          <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#F2B41B;"><span data-count="120">0</span></div>
+          <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">STUDENT SEATS PER COHORT</div>
+        </div>
+        <div data-rv="1" data-d="360" style="opacity:0; transform:translateY(26px);">
+          <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#F2B41B;"><span data-count="15">0</span></div>
+          <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">ALUMNI SIGNED PRO</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="campus" data-screen-label="Life in Seoul" style="padding:120px 28px 110px; max-width:1180px; margin:0 auto; position:relative;">
+    <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:26px;">03 — LIFE IN SEOUL</div>
+    <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(40px,6vw,78px); line-height:.95; margin-bottom:30px;">OFF THE <span style="color:transparent; -webkit-text-stroke:2.5px #2A1B0B;">SERVER</span></div>
+    <p data-rv="1" data-d="200" style="opacity:0; transform:translateY(26px); font-size:18px; line-height:1.6; max-width:62ch; margin:0 0 60px; text-wrap:pretty;">Campus sits ten minutes from the arena. Between lectures and scrim blocks: team dinners in Gangnam, PC bang field trips, and a tiger who takes outfit-of-the-day very seriously.</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:28px; align-items:end;">
+      <div data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px);">
+        <div style="aspect-ratio:4/5; border:2px solid #2A1B0B; box-shadow:6px 6px 0 #2A1B0B; background:repeating-linear-gradient(-45deg,#E7DCC0 0 14px,#EFE7D2 14px 28px); display:flex; align-items:center; justify-content:center;">
+          <div style="font-family:'Space Mono',monospace; font-size:12px; background:#2A1B0B; color:#EFE7D2; padding:6px 10px;">[ practice floor photo ]</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.12em; margin-top:12px;">FIG.01 — PRACTICE FLOOR</div>
+      </div>
+      <div data-rv="1" data-d="140" style="opacity:0; transform:translateY(26px); display:flex; flex-direction:column; gap:20px;">
+        <div data-par="-0.04"><img data-anim="1" src="assets/genrang-ootd.png" alt="GenRang in sunglasses and a team tee" style="width:78%; margin:0 auto; display:block; animation:floaty 4.6s ease-in-out infinite;"></div>
+        <div style="aspect-ratio:4/3; border:2px solid #2A1B0B; box-shadow:6px 6px 0 #2A1B0B; background:repeating-linear-gradient(-45deg,#E7DCC0 0 14px,#EFE7D2 14px 28px); display:flex; align-items:center; justify-content:center;">
+          <div style="font-family:'Space Mono',monospace; font-size:12px; background:#2A1B0B; color:#EFE7D2; padding:6px 10px;">[ team house photo ]</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.12em;">FIG.02 — TEAM HOUSE + OOTD OFFICER</div>
+      </div>
+      <div data-rv="1" data-d="280" style="opacity:0; transform:translateY(26px);">
+        <div style="aspect-ratio:4/5; border:2px solid #2A1B0B; box-shadow:6px 6px 0 #2A1B0B; background:repeating-linear-gradient(-45deg,#E7DCC0 0 14px,#EFE7D2 14px 28px); display:flex; align-items:center; justify-content:center;">
+          <div style="font-family:'Space Mono',monospace; font-size:12px; background:#2A1B0B; color:#EFE7D2; padding:6px 10px;">[ gangnam night run photo ]</div>
+        </div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.12em; margin-top:12px;">FIG.03 — GANGNAM, 23:40</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" data-screen-label="Apply CTA" style="border-top:2px solid #2A1B0B; padding:130px 28px 120px; position:relative; overflow:hidden;">
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:240px 1fr; gap:48px; align-items:center;">
+      <div data-rv="1" style="opacity:0; transform:translateY(26px);">
+        <div data-par="-0.05"><img data-anim="1" src="assets/genrang-joy.png" alt="GenRang beaming with joy" style="width:100%; display:block; animation:floaty 3.8s ease-in-out infinite;"></div>
+      </div>
+      <div>
+        <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:22px;">04 — APPLY</div>
+        <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(64px,11vw,150px); line-height:.9; color:transparent; -webkit-text-stroke:3px #2A1B0B;">GG?</div>
+        <div data-rv="1" data-d="220" style="opacity:0; transform:translateY(26px); display:flex; align-items:center; gap:26px; flex-wrap:wrap; margin-top:36px;">
+          <a href="#apply" style="font-family:'Tourney',sans-serif; font-weight:700; font-size:17px; background:#F2B41B; border:3px solid #2A1B0B; padding:18px 34px; box-shadow:6px 6px 0 #2A1B0B; cursor:pointer; display:inline-block;" style-hover="transform:translate(-3px,-3px); box-shadow:9px 9px 0 #2A1B0B; color:#2A1B0B;">APPLY TO THE ACADEMY →</a>
+          <div style="font-family:'Space Mono',monospace; font-size:13px; letter-spacing:.08em;">2026–27 admissions open · replies within 48h</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#2A1B0B; color:#EFE7D2; padding:56px 28px 40px;">
+    <div style="max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;">
+      <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:18px;">GEN.G <span style="color:#F2B41B;">//</span> ACADEMY</div>
+      <div style="display:flex; gap:28px; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em;">
+        <a href="#top" data-t="top" onClick="{{goTo}}" style="color:#EFE7D2;" style-hover="color:#F2B41B;">TOP ↑</a>
+        <a href="#apply" data-t="apply" onClick="{{goTo}}" style="color:#EFE7D2;" style-hover="color:#F2B41B;">CONTACT</a>
+        <a href="#apply" data-t="apply" onClick="{{goTo}}" style="color:#EFE7D2;" style-hover="color:#F2B41B;">DISCORD</a>
+      </div>
+    </div>
+    <div style="max-width:1180px; margin:28px auto 0; border-top:1px dashed rgba(239,231,210,.3); padding-top:22px; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.1em; opacity:.7;">© 2026 GENG GLOBAL ESPORTS ACADEMY — CONCEPT BUILD · GENRANG ART COURTESY OF GEN.G</div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;heroPose&quot;: {&quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;basic&quot;, &quot;joy&quot;], &quot;default&quot;: &quot;basic&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Mascot&quot;}, &quot;grainAmount&quot;: {&quot;editor&quot;: &quot;range&quot;, &quot;min&quot;: 0, &quot;max&quot;: 0.2, &quot;step&quot;: 0.01, &quot;default&quot;: 0.07, &quot;unit&quot;: &quot;&quot;, &quot;section&quot;: &quot;Atmosphere&quot;}, &quot;reduceMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;section&quot;: &quot;Atmosphere&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const W = 340, H = 460;
+    const rnd = (i, s) => { const x = Math.sin(i * 127.1 + s * 311.7) * 43758.5453; return x - Math.floor(x); };
+    const pose = this.props.heroPose ?? 'basic';
+    const img = pose === 'joy' ? 'assets/genrang-joy.png' : 'assets/genrang-basic.png';
+    const tiles = [];
+    for (let r = 0; r < 4; r++) for (let c = 0; c < 3; c++) {
+      const i = r * 3 + c;
+      tiles.push({
+        left: Math.round(c * W / 3), top: Math.round(r * H / 4),
+        w: Math.ceil(W / 3) + 1, h: Math.ceil(H / 4) + 1,
+        bx: -Math.round(c * W / 3), by: -Math.round(r * H / 4),
+        dx: Math.round(620 + c * 200 + rnd(i, 1) * 320),
+        dy: Math.round(((r + 0.5) / 4 - 0.5) * 150 + (rnd(i, 2) - 0.5) * 130),
+        del: Math.round(((2 - c) * 0.22 + rnd(i, 3) * 0.12) * 100) / 100,
+        img
+      });
+    }
+    return {
+      tiles,
+      ddDisp: this.state?.dd ? 'block' : 'none',
+      ddOn: () => this.setState({ dd: true }),
+      ddOff: () => this.setState({ dd: false }),
+      goTo: (e) => {
+        e.preventDefault();
+        const el = document.getElementById(e.currentTarget.dataset.t);
+        if (el) window.scrollTo({ top: Math.max(0, el.offsetTop - 60), behavior: 'smooth' });
+      }
+    };
+  }
+  componentDidMount() { this._setup(); }
+  componentDidUpdate() { this._applyPrefs(); }
+  _applyPrefs() {
+    const g = document.getElementById('grain');
+    if (g) g.style.opacity = String(this.props.grainAmount ?? 0.07);
+    const rm = !!this.props.reduceMotion;
+    this._rm = rm;
+    document.querySelectorAll('[data-anim]').forEach(el => { el.style.animationPlayState = rm ? 'paused' : 'running'; });
+    if (rm) document.querySelectorAll('[data-rv]').forEach(el => { el.style.transition = 'none'; el.style.opacity = '1'; el.style.transform = 'none'; });
+  }
+  _drawMap() {
+    const cv = document.getElementById('lowpoly');
+    if (!cv) return;
+    const S = 960; cv.width = S; cv.height = S;
+    const ctx = cv.getContext('2d');
+    const rnd = (i, j, s) => { const x = Math.sin(i * 127.1 + j * 311.7 + s * 74.7) * 43758.5453; return x - Math.floor(x); };
+    // Han river control polyline (x descending from east to west)
+    const RP = [[1.04, .50], [.86, .58], [.72, .60], [.58, .52], [.45, .55], [.33, .50], [.21, .42], [.09, .37], [-.04, .33]];
+    const riverY = x => {
+      for (let k = 0; k < RP.length - 1; k++) {
+        const a = RP[k], b = RP[k + 1];
+        if (x <= a[0] && x >= b[0]) { const t = (x - b[0]) / ((a[0] - b[0]) || 1e-6); return b[1] + t * (a[1] - b[1]); }
+      }
+      return .5;
+    };
+    // mountain bumps: Bukhansan N, NE hills, Namsan, Gwanaksan SW, S hills
+    const bumps = [[.5, .04, .30, 1], [.84, .10, .22, .7], [.47, .40, .10, .5], [.15, .92, .26, .95], [.66, .94, .20, .65], [.03, .56, .14, .4]];
+    const elev = (x, y) => { let e = 0; bumps.forEach(b => { const d = ((x - b[0]) ** 2 + (y - b[1]) ** 2) / (b[2] * b[2]); e += b[3] * Math.exp(-d); }); return e; };
+    const water = (x, y) => Math.abs(y - riverY(x)) < 0.032 + 0.012 * Math.sin(x * 9);
+    const N = 16, jit = 0.55 / N;
+    const V = [];
+    for (let j = 0; j <= N; j++) { V[j] = []; for (let i = 0; i <= N; i++) {
+      const x = i / N + (i > 0 && i < N ? (rnd(i, j, 1) - .5) * jit : 0);
+      const y = j / N + (j > 0 && j < N ? (rnd(i, j, 2) - .5) * jit : 0);
+      V[j][i] = [x, y];
+    } }
+    const col = (e, w, r) => {
+      if (w) return `hsl(206, ${60 + r * 10}%, ${62 + r * 9}%)`;
+      const ramp = [[46, 40, 86], [45, 42, 79], [43, 40, 70], [40, 36, 60], [37, 32, 50]];
+      const c = ramp[e < .18 ? 0 : e < .34 ? 1 : e < .52 ? 2 : e < .72 ? 3 : 4];
+      return `hsl(${c[0]}, ${c[1]}%, ${c[2] + (r - .5) * 7}%)`;
+    };
+    for (let j = 0; j < N; j++) for (let i = 0; i < N; i++) {
+      const q = [V[j][i], V[j][i + 1], V[j + 1][i + 1], V[j + 1][i]];
+      [[0, 1, 2], [0, 2, 3]].forEach((tr, ti) => {
+        const cx = (q[tr[0]][0] + q[tr[1]][0] + q[tr[2]][0]) / 3;
+        const cy = (q[tr[0]][1] + q[tr[1]][1] + q[tr[2]][1]) / 3;
+        const w = water(cx, cy);
+        const e = elev(cx, cy) + (rnd(i, j, ti + 3) - .5) * .12;
+        ctx.beginPath();
+        ctx.moveTo(q[tr[0]][0] * S, q[tr[0]][1] * S);
+        ctx.lineTo(q[tr[1]][0] * S, q[tr[1]][1] * S);
+        ctx.lineTo(q[tr[2]][0] * S, q[tr[2]][1] * S);
+        ctx.closePath();
+        ctx.fillStyle = col(e, w, rnd(i, j, ti + 7));
+        ctx.fill();
+        ctx.strokeStyle = w ? 'rgba(42,60,90,0.10)' : 'rgba(42,27,11,0.09)';
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
+      });
+    }
+    // roads
+    const roads = [
+      [[.02, .62], [.2, .64], [.35, .66], [.5, .68], [.68, .71], [.9, .75], [1.02, .77]],   // Teheran-ro
+      [[.04, .28], [.3, .30], [.55, .30], [.8, .33], [1.0, .36]],                            // north arterial
+      [[.28, .30], [.29, .48], [.30, .655]],                                                 // bridge W
+      [[.55, .30], [.53, .50], [.50, .68]],                                                  // bridge C
+      [[.79, .33], [.76, .55], [.73, .72]],                                                  // bridge E
+      [[.30, .655], [.44, .74], [.58, .80], [.78, .84]],                                     // gangnam-daero
+      [[.14, .50], [.22, .44], [.28, .38]],                                                  // hongdae streets
+      [[.38, .74], [.42, .82], [.46, .90]],
+      [[.60, .70], [.66, .66], [.72, .66]]
+    ];
+    roads.forEach(rd => {
+      [[9, 'rgba(42,27,11,0.30)'], [5.5, '#E9DDBE']].forEach(([lw, cs]) => {
+        ctx.beginPath();
+        rd.forEach((p, k) => k ? ctx.lineTo(p[0] * S, p[1] * S) : ctx.moveTo(p[0] * S, p[1] * S));
+        ctx.strokeStyle = cs; ctx.lineWidth = lw; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+        ctx.stroke();
+      });
+    });
+    // buildings — 2.5D extruded blocks per district
+    const drawB = (bx, by, w, rise, gold) => {
+      const ox = Math.max(3, rise * .3);
+      const wall = gold ? '#F2B41B' : `hsl(43, 36%, ${72 + (rnd(bx * 99, by * 99, 5) - .5) * 10}%)`;
+      const side = gold ? '#C98F0A' : `hsl(40, 30%, ${52 + (rnd(bx * 99, by * 99, 6) - .5) * 8}%)`;
+      const roof = gold ? '#F8CD5A' : `hsl(45, 40%, ${84 + (rnd(bx * 99, by * 99, 7) - .5) * 6}%)`;
+      const X = bx * S, Y = by * S;
+      ctx.fillStyle = wall; ctx.fillRect(X, Y - rise, w, rise);
+      ctx.beginPath(); ctx.moveTo(X + w, Y - rise); ctx.lineTo(X + w, Y); ctx.lineTo(X + w + ox, Y - ox); ctx.lineTo(X + w + ox, Y - rise - ox); ctx.closePath();
+      ctx.fillStyle = side; ctx.fill();
+      ctx.beginPath(); ctx.moveTo(X, Y - rise); ctx.lineTo(X + w, Y - rise); ctx.lineTo(X + w + ox, Y - rise - ox); ctx.lineTo(X + ox, Y - rise - ox); ctx.closePath();
+      ctx.fillStyle = roof; ctx.fill();
+      ctx.strokeStyle = 'rgba(42,27,11,0.45)'; ctx.lineWidth = 1.4;
+      ctx.strokeRect(X, Y - rise, w, rise);
+      ctx.beginPath(); ctx.moveTo(X + w, Y); ctx.lineTo(X + w + ox, Y - ox); ctx.lineTo(X + w + ox, Y - rise - ox); ctx.lineTo(X + ox, Y - rise - ox); ctx.lineTo(X, Y - rise); ctx.stroke();
+    };
+    const clusters = [
+      { cx: .215, cy: .425, n: 8, sp: .085, min: 10, max: 26 },
+      { cx: .575, cy: .435, n: 8, sp: .08, min: 10, max: 24 },
+      { cx: .705, cy: .665, n: 6, sp: .07, min: 12, max: 30 },
+      { cx: .445, cy: .705, n: 11, sp: .095, min: 16, max: 44 }
+    ];
+    const bl = [];
+    clusters.forEach((d, di) => {
+      for (let k = 0; k < d.n; k++) {
+        const bx = d.cx + (rnd(k, di, 8) - .5) * d.sp;
+        const by = d.cy + (rnd(k, di, 9) - .5) * d.sp * .8;
+        if (water(bx, by) || elev(bx, by) > .45) continue;
+        bl.push([bx, by, 9 + rnd(k, di, 10) * 12, d.min + rnd(k, di, 11) * (d.max - d.min), false]);
+      }
+    });
+    bl.push([.435, .695, 20, 52, true]); // HQ gold tower
+    bl.sort((a, b) => a[1] - b[1]).forEach(b => drawB(b[0], b[1], b[2], b[3], b[4]));
+  }
+  _setup() {
+    this._applyPrefs();
+    this._drawMap();
+    window.addEventListener('resize', () => this._drawMap());
+    const clamp = v => Math.max(0, Math.min(1, v));
+    const smooth = t => t * t * (3 - 2 * t);
+    const $ = id => document.getElementById(id);
+    const frame = () => {
+      const vh = window.innerHeight, y = window.scrollY;
+      const mw = $('mascotWrap');
+      if (mw) {
+        const sc = Math.max(0.5, Math.min(1, (window.innerWidth - 700) / 1000 + 0.55, (vh - 180) / 460));
+        mw.style.transform = `translateY(-50%) scale(${sc})`;
+      }
+      const wrap = $('top');
+      if (wrap) {
+        const span = Math.max(1, wrap.offsetHeight - vh);
+        const p = clamp((y - wrap.offsetTop) / span);
+        const e = smooth(clamp(p / 0.5));
+        const tb = $('tileBox');
+        if (tb) {
+          const s = smooth(e);
+          tb.style.transformOrigin = 'right center';
+          tb.style.transform = `translateX(${s * 1100}px) scaleX(${1 + Math.sin(s * Math.PI) * 2.4}) scaleY(${1 - s * 0.22})`;
+          tb.style.opacity = String(clamp(1 - s * 1.25));
+        }
+        const ti = $('heroTitle');
+        if (ti) { const q = clamp(p / 0.34); ti.style.opacity = String(1 - q); ti.style.transform = `scale(${1 + q * 0.25})`; }
+        const mp = $('mapLayer');
+        if (mp) { const m = smooth(clamp((p - 0.26) / 0.3)); mp.style.opacity = String(m); mp.style.transform = `scale(${0.84 + 0.16 * m})`; }
+        document.querySelectorAll('[data-mstep]').forEach(el => {
+          const k = +el.dataset.mstep;
+          const q2 = clamp((p - (0.52 + k * 0.07)) / 0.1);
+          el.style.opacity = String(q2);
+          el.style.transform = `translateY(${(1 - q2) * 16}px)`;
+        });
+        const h = $('heroHint');
+        if (h) h.style.opacity = String(clamp(1 - p * 4));
+      }
+      const pb = $('pbar');
+      if (pb) {
+        const dh = Math.max(1, document.documentElement.scrollHeight - vh);
+        pb.style.width = (clamp(y / dh) * 100) + '%';
+      }
+      document.querySelectorAll('[data-par]').forEach(el => {
+        const r = el.parentElement.getBoundingClientRect();
+        el.style.transform = `translateY(${(r.top + r.height / 2 - vh / 2) * parseFloat(el.dataset.par)}px)`;
+      });
+    };
+    let ticking = false;
+    const onS = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { frame(); ticking = false; }); } };
+    window.addEventListener('scroll', onS, { passive: true });
+    window.addEventListener('resize', onS);
+    frame();
+    if (!this._rm) {
+      const io = new IntersectionObserver(es => {
+        es.forEach(en => {
+          const el = en.target, d = el.dataset.d || 0;
+          if (en.isIntersecting) {
+            el.style.transition = `opacity .7s ease ${d}ms, transform .7s cubic-bezier(.2,.7,.25,1) ${d}ms`;
+            el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+          } else {
+            el.style.transition = 'opacity .25s ease, transform .25s ease';
+            el.style.opacity = '0'; el.style.transform = 'translateY(26px)';
+          }
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('[data-rv]').forEach(el => io.observe(el));
+    }
+    const smooth2 = smooth;
+    const cio = new IntersectionObserver(es => {
+      es.forEach(en => {
+        const el = en.target;
+        if (en.isIntersecting && !el._run) {
+          el._run = true;
+          const target = +el.dataset.count, t0 = performance.now();
+          const step = n => {
+            const k = Math.min(1, (n - t0) / (this._rm ? 1 : 900));
+            el.textContent = String(Math.round(target * smooth2(k)));
+            if (k < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        } else if (!en.isIntersecting) { el._run = false; }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+  }
+}
+</script>
+</body>
+</html>

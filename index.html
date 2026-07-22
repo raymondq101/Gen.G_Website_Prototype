@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tourney:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#EFE7D2;}
+body{overflow-x:hidden;}
+a{color:#2A1B0B;text-decoration:none;}
+a:hover{color:#B98A00;}
+::selection{background:#F2B41B;color:#2A1B0B;}
+@keyframes grainShift{0%{transform:translate(0,0)}25%{transform:translate(-38px,22px)}50%{transform:translate(26px,-32px)}75%{transform:translate(-18px,-12px)}100%{transform:translate(0,0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes dashWalk{to{stroke-dashoffset:-40}}
+</style>
+</helmet>
+<div style="background:#EFE7D2; color:#2A1B0B; font-family:'Space Grotesk',sans-serif; overflow-x:clip; position:relative;">
+  <div id="grain" style="position:fixed; inset:-90px; z-index:1200; pointer-events:none; opacity:0.07; mix-blend-mode:multiply; background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>&quot;); background-repeat:repeat; animation:grainShift .7s steps(2,end) infinite;"></div>
+  <div style="position:fixed; top:0; left:0; right:0; z-index:1100; height:3px; background:rgba(42,27,11,.12);"><div id="pbar" style="height:100%; width:0%; background:#F2B41B; border-right:2px solid #2A1B0B;"></div></div>
+  <nav style="position:fixed; top:3px; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:rgba(239,231,210,.82); backdrop-filter:blur(8px); border-bottom:2px solid #2A1B0B;">
+    <a href="GenG.dc.html" style="font-family:'Tourney',sans-serif; font-weight:900; font-size:15px; letter-spacing:.06em;">GEN.G <span style="color:#B98A00;">//</span> ESPORTS</a>
+    <div style="display:flex; gap:26px; align-items:center; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em;">
+      <a href="#about" data-t="about" onClick="{{goTo}}" style-hover="color:#B98A00;">ABOUT</a>
+      <div style="position:relative;" onMouseEnter="{{ddOn}}" onMouseLeave="{{ddOff}}">
+        <a href="#teams" data-t="teams" onClick="{{goTo}}" style-hover="color:#B98A00;">TEAMS ▾</a>
+        <div style="display:{{ddDisp}}; position:absolute; top:100%; left:50%; transform:translateX(-50%); padding-top:12px;">
+          <div style="background:#EFE7D2; border:2px solid #2A1B0B; box-shadow:5px 5px 0 #2A1B0B; display:flex; flex-direction:column; min-width:220px;">
+            <a href="Teams.dc.html#lck" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">LCK</a>
+            <a href="Teams.dc.html#challengers" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">LCK CHALLENGERS</a>
+            <a href="Teams.dc.html#valorant" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">VALORANT</a>
+            <a href="Teams.dc.html#racing" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">MOBIL1 RACING</a>
+            <a href="Teams.dc.html#pubg-mobile" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">PUBG MOBILE</a>
+            <a href="Teams.dc.html#pubg" style="padding:11px 16px;" style-hover="background:#F2B41B;">PUBG</a>
+          </div>
+        </div>
+      </div>
+      <a href="Academy.dc.html" style-hover="color:#B98A00;">ACADEMY</a>
+      <a href="Practicum.dc.html" style-hover="color:#B98A00;">PRACTICUM</a>
+      <a href="Bootcamp.dc.html" style-hover="color:#B98A00;">BOOTCAMP</a>
+      <a href="Academy.dc.html" style="background:#F2B41B; border:2px solid #2A1B0B; padding:6px 14px; box-shadow:3px 3px 0 #2A1B0B; cursor:pointer;" style-hover="transform:translate(-2px,-2px); box-shadow:5px 5px 0 #2A1B0B;">JOIN ★</a>
+    </div>
+  </nav>
+
+  <div id="heroWrap" data-screen-label="Home hero" style="height:145vh; position:relative;">
+    <div style="position:sticky; top:0; height:100vh; overflow:hidden; display:flex; align-items:center; justify-content:center; perspective:1200px;">
+      <svg viewBox="0 0 1440 800" preserveAspectRatio="none" style="position:absolute; inset:0; width:100%; height:100%; z-index:1; pointer-events:none;"><path d="M-30 520 C 280 610, 460 340, 720 400 S 1200 560, 1500 280" fill="none" stroke="#B98A00" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 16" opacity=".65" style="animation:dashWalk 2.6s linear infinite;"></path></svg>
+      <div style="position:absolute; top:14%; left:6%; z-index:1; pointer-events:none; display:flex; flex-direction:column; gap:3px; transform:rotate(-18deg);"><div style="display:flex; gap:4px;"><div style="width:7px; height:10px; border-radius:50%; background:#2A1B0B;"></div><div style="width:7px; height:11px; border-radius:50%; background:#2A1B0B;"></div><div style="width:7px; height:10px; border-radius:50%; background:#2A1B0B;"></div></div><div style="width:20px; height:16px; border-radius:50% 50% 46% 46%; background:#2A1B0B; align-self:center;"></div></div>
+      <div style="position:absolute; top:24%; left:11%; z-index:1; pointer-events:none; display:flex; flex-direction:column; gap:3px; transform:rotate(12deg); opacity:.6;"><div style="display:flex; gap:4px;"><div style="width:7px; height:10px; border-radius:50%; background:#2A1B0B;"></div><div style="width:7px; height:11px; border-radius:50%; background:#2A1B0B;"></div><div style="width:7px; height:10px; border-radius:50%; background:#2A1B0B;"></div></div><div style="width:20px; height:16px; border-radius:50% 50% 46% 46%; background:#2A1B0B; align-self:center;"></div></div>
+      <div id="heroTitle" style="position:absolute; inset:0; z-index:2; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; pointer-events:none; will-change:transform,opacity;">
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.3em; margin-bottom:18px;">SEOUL // LOS ANGELES — EST. 2017</div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(80px,17vw,220px); line-height:.88; color:transparent; -webkit-text-stroke:3px #2A1B0B;">GEN.<span style="color:#F2B41B;">G</span></div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; letter-spacing:.24em; margin-top:22px; background:#6E5200; color:#EFE7D2; padding:8px 16px; border:1.5px solid #6E5200; border-radius:12px;">SIX SQUADS · ONE DEN · <span style="color:#F2B41B; font-weight:700;">#TIGERNATION</span></div>
+      </div>
+      <div id="heroMascot" style="position:absolute; right:1%; bottom:2%; z-index:1; width:min(300px,28vw); height:min(340px,44vh); will-change:transform,opacity;">
+        <x-import component-from-global-scope="genrang-3d" from="./genrang-3d.js" hint-size="100%,100%"></x-import>
+        <div style="position:absolute; top:-26px; right:10px; background:#2A1B0B; color:#F2B41B; font-family:'Space Mono',monospace; font-size:10px; font-weight:700; padding:5px 9px; transform:rotate(6deg); border:2px solid #F2B41B; white-space:nowrap;">WELCOME TO THE DEN ★</div>
+      </div>
+      <div id="heroHint" style="position:absolute; bottom:26px; left:0; right:0; z-index:3; text-align:center; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.2em;">▼ SCROLL — MEET THE SQUADS</div>
+    </div>
+  </div>
+
+  <div data-screen-label="Champions marquee" style="background:#F2B41B; border-top:2px solid #2A1B0B; border-bottom:2px solid #2A1B0B; overflow:hidden; padding:16px 0;">
+    <div style="display:flex; width:max-content; animation:marquee 46s linear infinite; font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:21px; letter-spacing:.08em; white-space:nowrap;">
+      <div style="display:flex; gap:26px; padding-right:26px; align-items:center;"><span>2014 LOL WORLD CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">2017 LOL WORLD CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span>4× CONSECUTIVE LCK CHAMPIONS '22–'24</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">MSI 2024 CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span>VALORANT MASTERS SHANGHAI 2024 CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">PUBG GLOBAL CHAMPIONS 2019</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span>ESPORTS WORLD CUP 2024 LOL CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">#TIGERNATION</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span></div>
+      <div style="display:flex; gap:26px; padding-right:26px; align-items:center;"><span>2014 LOL WORLD CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">2017 LOL WORLD CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span>4× CONSECUTIVE LCK CHAMPIONS '22–'24</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">MSI 2024 CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span>VALORANT MASTERS SHANGHAI 2024 CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">PUBG GLOBAL CHAMPIONS 2019</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span>ESPORTS WORLD CUP 2024 LOL CHAMPIONS</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span><span style="color:transparent; -webkit-text-stroke:1.2px #2A1B0B;">#TIGERNATION</span><span style="color:#EFE7D2; -webkit-text-stroke:1.5px #2A1B0B;">★</span></div>
+    </div>
+  </div>
+
+  <section id="teams" data-screen-label="Teams grid" style="padding:120px 28px 130px; max-width:1180px; margin:0 auto;">
+    <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:26px;">01 — TEAMS</div>
+    <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(40px,6vw,78px); line-height:.95; margin-bottom:64px;">SIX SQUADS. <span style="color:transparent; -webkit-text-stroke:2.5px #2A1B0B;">ONE DEN.</span></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:30px;">
+      <a href="Teams.dc.html#lck" data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:14px; cursor:pointer;" style-hover="background:#F5EBD2; color:#2A1B0B;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#B98A00;">TEAM.01</div><div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#F2B41B; border:2px solid #2A1B0B; padding:3px 8px;">LEAGUE OF LEGENDS</div></div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:34px; line-height:1;">LCK</div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.06em; opacity:.8;">KIIN · CANYON · CHOVY · RULER · DURO</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; margin-top:12px; align-self:flex-start; border:2px solid #2A1B0B; background:#EFE7D2; padding:9px 16px; box-shadow:3px 3px 0 #2A1B0B;">VIEW ROSTER →</div>
+      </a>
+      <a href="Teams.dc.html#challengers" data-rv="1" data-d="90" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:14px; cursor:pointer;" style-hover="background:#F5EBD2; color:#2A1B0B;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#B98A00;">TEAM.02</div><div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#8FC9F2; border:2px solid #2A1B0B; padding:3px 8px;">LEAGUE OF LEGENDS</div></div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:34px; line-height:1;">LCK CHALLENGERS</div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.06em; opacity:.8;">HORANGE · TOYE · DOOLY · SLAYER +2</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; margin-top:12px; align-self:flex-start; border:2px solid #2A1B0B; background:#EFE7D2; padding:9px 16px; box-shadow:3px 3px 0 #2A1B0B;">VIEW ROSTER →</div>
+      </a>
+      <a href="Teams.dc.html#valorant" data-rv="1" data-d="180" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:14px; cursor:pointer;" style-hover="background:#F5EBD2; color:#2A1B0B;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#B98A00;">TEAM.03</div><div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#F0603C; border:2px solid #2A1B0B; padding:3px 8px; color:#EFE7D2;">VCT PACIFIC</div></div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:34px; line-height:1;">VALORANT</div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.06em; opacity:.8;">METEOR · T3XTURE · KARON · MUNCHKIN · LAKIA</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; margin-top:12px; align-self:flex-start; border:2px solid #2A1B0B; background:#EFE7D2; padding:9px 16px; box-shadow:3px 3px 0 #2A1B0B;">VIEW ROSTER →</div>
+      </a>
+      <a href="Teams.dc.html#racing" data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:14px; cursor:pointer;" style-hover="background:#F5EBD2; color:#2A1B0B;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#B98A00;">TEAM.04</div><div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#F2B41B; border:2px solid #2A1B0B; padding:3px 8px;">ROCKET LEAGUE</div></div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:34px; line-height:1;">MOBIL1 RACING</div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.06em; opacity:.8;">JSTN · RISE · MAJICBEAR</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; margin-top:12px; align-self:flex-start; border:2px solid #2A1B0B; background:#EFE7D2; padding:9px 16px; box-shadow:3px 3px 0 #2A1B0B;">VIEW ROSTER →</div>
+      </a>
+      <a href="Teams.dc.html#pubg-mobile" data-rv="1" data-d="90" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:14px; cursor:pointer;" style-hover="background:#F5EBD2; color:#2A1B0B;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#B98A00;">TEAM.05</div><div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#8FC9F2; border:2px solid #2A1B0B; padding:3px 8px;">PMGC</div></div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:34px; line-height:1;">PUBG MOBILE</div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.06em; opacity:.8;">JUNI · MACHAO · MISSILE · SAYDEN</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; margin-top:12px; align-self:flex-start; border:2px solid #2A1B0B; background:#EFE7D2; padding:9px 16px; box-shadow:3px 3px 0 #2A1B0B;">VIEW ROSTER →</div>
+      </a>
+      <a href="Teams.dc.html#pubg" data-rv="1" data-d="180" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:28px; box-shadow:7px 7px 0 #2A1B0B; display:flex; flex-direction:column; gap:14px; cursor:pointer;" style-hover="background:#F5EBD2; color:#2A1B0B;">
+        <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; color:#B98A00;">TEAM.06</div><div style="font-family:'Space Mono',monospace; font-size:11px; font-weight:700; background:#F0603C; border:2px solid #2A1B0B; padding:3px 8px; color:#EFE7D2;">PWS KOREA</div></div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:34px; line-height:1;">PUBG</div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.06em; opacity:.8;">ADDER · BARPO · REX · TOSI</div>
+        <div style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.12em; margin-top:12px; align-self:flex-start; border:2px solid #2A1B0B; background:#EFE7D2; padding:9px 16px; box-shadow:3px 3px 0 #2A1B0B;">VIEW ROSTER →</div>
+      </a>
+    </div>
+  </section>
+
+  <section data-screen-label="Academy banner" style="background:#2A1B0B; color:#EFE7D2; padding:110px 28px;">
+    <div style="max-width:1180px; margin:0 auto; display:grid; grid-template-columns:220px 1fr; gap:52px; align-items:center;">
+      <div data-rv="1" style="opacity:0; transform:translateY(26px);">
+        <div data-par="-0.05"><img src="assets/genrang-cheer.png" alt="GenRang cheering with pompoms" style="width:100%; display:block; animation:floaty 4.2s ease-in-out infinite;"></div>
+      </div>
+      <div>
+        <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#F2B41B; margin-bottom:22px;">02 — ACADEMY</div>
+        <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(36px,5.4vw,70px); line-height:.98;">TRAIN WHERE <span style="color:transparent; -webkit-text-stroke:2.5px #F2B41B;">KOREA TRAINS</span></div>
+        <p data-rv="1" data-d="200" style="opacity:0; transform:translateY(26px); font-size:18px; line-height:1.6; max-width:58ch; margin:24px 0 34px; text-wrap:pretty; opacity:.9;">Residency bootcamps in Seoul for professional and collegiate rosters — scrims, VOD labs, and the full GenRang deployment experience.</p>
+        <div data-rv="1" data-d="300" style="opacity:0; transform:translateY(26px);">
+          <a href="Academy.dc.html" style="font-family:'Tourney',sans-serif; font-weight:700; font-size:16px; background:#F2B41B; color:#2A1B0B; border:3px solid #EFE7D2; padding:16px 30px; box-shadow:6px 6px 0 #EFE7D2; cursor:pointer; display:inline-block;" style-hover="transform:translate(-3px,-3px); box-shadow:9px 9px 0 #EFE7D2; color:#2A1B0B;">ENTER THE ACADEMY →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" data-screen-label="About + stats" style="padding:120px 28px 110px; max-width:1180px; margin:0 auto;">
+    <div data-rv="1" style="opacity:0; transform:translateY(26px); font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:26px;">03 — THE ORG</div>
+    <div data-rv="1" data-d="100" style="opacity:0; transform:translateY(26px); font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(38px,5.8vw,74px); line-height:.96; max-width:16ch;">BRIDGING <span style="color:transparent; -webkit-text-stroke:2.5px #2A1B0B;">SEOUL + LA</span> SINCE 2017.</div>
+    <p data-rv="1" data-d="220" style="opacity:0; transform:translateY(26px); font-size:19px; line-height:1.6; max-width:58ch; margin:32px 0 0; text-wrap:pretty;">Founded in 2017 as KSV eSports by Kabam co-founders Kevin Chou and Kent Wakeford, Gen.G — short for Generation Gaming — rebranded in May 2018 and inherited the Samsung Galaxy legacy: two League of Legends World Championships and one of the most decorated lineages in Korean esports.</p>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:26px; margin-top:56px;">
+      <div data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:24px 22px; box-shadow:5px 5px 0 #2A1B0B;">
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em; color:#B98A00; margin-bottom:10px;">2017 — THE DYNASTY ERA</div>
+        <div style="font-size:15px; line-height:1.55;">Launched with the Seoul Dynasty Overwatch League franchise, then acquired the Samsung Galaxy LoL roster fresh off its 2017 Worlds title.</div>
+      </div>
+      <div data-rv="1" data-d="120" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:24px 22px; box-shadow:5px 5px 0 #2A1B0B;">
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em; color:#B98A00; margin-bottom:10px;">2024 — THE GOLDEN RUN</div>
+        <div style="font-size:15px; line-height:1.55;">Four consecutive LCK championships, the 2024 MSI title, and a VALORANT Masters Shanghai trophy — all in one stretch.</div>
+      </div>
+      <div data-rv="1" data-d="240" style="opacity:0; transform:translateY(26px); border:2px solid #2A1B0B; background:#E7DCC0; padding:24px 22px; box-shadow:5px 5px 0 #2A1B0B;">
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em; color:#B98A00; margin-bottom:10px;">BEYOND THE STAGE</div>
+        <div style="font-size:15px; line-height:1.55;">Gen.G Global Academy develops the next generation across Korea and the US, with backing from LG, Monster Energy, and Logitech.</div>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:28px; margin-top:80px; border-top:2px solid rgba(42,27,11,.35); padding-top:52px;">
+      <div data-rv="1" data-d="0" style="opacity:0; transform:translateY(26px);">
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#B98A00;"><span data-count="6">0</span></div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">COMPETITIVE SQUADS</div>
+      </div>
+      <div data-rv="1" data-d="120" style="opacity:0; transform:translateY(26px);">
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#B98A00;"><span data-count="2">0</span></div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">LOL WORLDS TITLES (SSG LEGACY)</div>
+      </div>
+      <div data-rv="1" data-d="240" style="opacity:0; transform:translateY(26px);">
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#B98A00;"><span data-count="4">0</span></div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">CONSECUTIVE LCK TITLES</div>
+      </div>
+      <div data-rv="1" data-d="360" style="opacity:0; transform:translateY(26px);">
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(44px,5vw,64px); color:#B98A00;"><span data-count="1">0</span></div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.16em; opacity:.8; margin-top:6px;">VERY SUPPORTIVE TIGER</div>
+      </div>
+    </div>
+  </section>
+
+  <div data-screen-label="Sponsors ribbon" style="border-top:2px solid #2A1B0B; padding:54px 0 60px; overflow:hidden;">
+    <div style="text-align:center; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.3em; color:#B98A00; margin-bottom:34px;">★ OFFICIAL PARTNERS ★</div>
+    <div style="display:flex; width:max-content; animation:marquee 32s linear infinite; will-change:transform; transform:translateZ(0);">
+      <img src="assets/sponsors-transparent.png" loading="eager" decoding="sync" alt="GenG sponsors: Otoki, Soop, Monster Energy, Logitech G, Musinsa, NordVPN, GGX, GenG Global Academy, Your.GG, McDonald's, Mobil 1" style="aspect-ratio:4038/314; height:74px; width:auto; display:block; padding-right:120px;">
+      <img src="assets/sponsors-transparent.png" loading="eager" decoding="sync" alt="" style="aspect-ratio:4038/314; height:74px; width:auto; display:block; padding-right:120px;">
+    </div>
+  </div>
+
+  <footer data-screen-label="Footer" style="background:#2A1B0B; color:#EFE7D2; padding:56px 28px 40px;">
+    <div style="max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:24px; flex-wrap:wrap;">
+      <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:18px;">GEN.G <span style="color:#F2B41B;">//</span> #TIGERNATION</div>
+      <div style="display:flex; gap:28px; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em;">
+        <a href="https://twitter.com/geng" style="color:#EFE7D2;" style-hover="color:#F2B41B;">X</a>
+        <a href="https://www.instagram.com/gengesports/" style="color:#EFE7D2;" style-hover="color:#F2B41B;">INSTAGRAM</a>
+        <a href="https://www.youtube.com/channel/UCDmmbxGg8g-EBkC_ku6vybg" style="color:#EFE7D2;" style-hover="color:#F2B41B;">YOUTUBE</a>
+        <a href="https://discord.com/invite/tigernation" style="color:#EFE7D2;" style-hover="color:#F2B41B;">DISCORD</a>
+      </div>
+    </div>
+    <div style="max-width:1180px; margin:28px auto 0; border-top:1px dashed rgba(239,231,210,.3); padding-top:22px; display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.1em; opacity:.7;">
+      <div>© 2026 GEN.G — CONCEPT REBUILD · GENRANG ART COURTESY OF GEN.G</div>
+      <div style="display:flex; gap:22px;"><a href="Teams.dc.html#lck" style="color:#EFE7D2;">TEAMS</a><a href="Academy.dc.html" style="color:#EFE7D2;">ACADEMY</a></div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { dd: false };
+  renderVals() {
+    return {
+      ddDisp: this.state.dd ? 'block' : 'none',
+      ddOn: () => this.setState({ dd: true }),
+      ddOff: () => this.setState({ dd: false }),
+      goTo: (e) => {
+        e.preventDefault();
+        const el = document.getElementById(e.currentTarget.dataset.t);
+        if (el) window.scrollTo({ top: Math.max(0, el.offsetTop - 60), behavior: 'smooth' });
+      }
+    };
+  }
+  componentDidMount() {
+    const clamp = v => Math.max(0, Math.min(1, v));
+    const smooth = t => t * t * (3 - 2 * t);
+    const $ = id => document.getElementById(id);
+    const frame = () => {
+      const vh = window.innerHeight, y = window.scrollY;
+      const wrap = $('heroWrap');
+      if (wrap) {
+        const span = Math.max(1, wrap.offsetHeight - vh);
+        const p = clamp(y / span);
+        const m = $('heroMascot');
+        if (m) { const e = smooth(p); m.style.transform = `translateY(${-e * vh * 0.25}px) rotateY(${e * 55}deg) scale(${1 - e * 0.3})`; m.style.opacity = String(clamp(1 - p * 1.6)); }
+        const ti = $('heroTitle');
+        if (ti) { const q = smooth(clamp(p / 0.75)); ti.style.opacity = String(1 - q); ti.style.transform = `scale(${1 + q * 0.15}) rotateX(${q * 32}deg) translateZ(${q * -120}px)`; }
+        const h = $('heroHint');
+        if (h) h.style.opacity = String(clamp(1 - p * 4));
+      }
+      const pb = $('pbar');
+      if (pb) {
+        const dh = Math.max(1, document.documentElement.scrollHeight - vh);
+        pb.style.width = (clamp(y / dh) * 100) + '%';
+      }
+      document.querySelectorAll('[data-par]').forEach(el => {
+        const r = el.parentElement.getBoundingClientRect();
+        el.style.transform = `translateY(${(r.top + r.height / 2 - vh / 2) * parseFloat(el.dataset.par)}px)`;
+      });
+    };
+    let ticking = false;
+    const onS = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { frame(); ticking = false; }); } };
+    window.addEventListener('scroll', onS, { passive: true });
+    window.addEventListener('resize', onS);
+    frame();
+    const io = new IntersectionObserver(es => {
+      es.forEach(en => {
+        const el = en.target, d = el.dataset.d || 0;
+        if (en.isIntersecting) {
+          el.style.transition = `opacity .7s ease ${d}ms, transform .7s cubic-bezier(.2,.7,.25,1) ${d}ms`;
+          el.style.opacity = '1'; el.style.transform = 'translateY(0px)';
+        } else {
+          el.style.transition = 'opacity .25s ease, transform .25s ease';
+          el.style.opacity = '0'; el.style.transform = 'translateY(26px)';
+        }
+      });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('[data-rv]').forEach(el => io.observe(el));
+    const cio = new IntersectionObserver(es => {
+      es.forEach(en => {
+        const el = en.target;
+        if (en.isIntersecting && !el._run) {
+          el._run = true;
+          const target = +el.dataset.count, t0 = performance.now();
+          const step = n => {
+            const k = Math.min(1, (n - t0) / 900);
+            el.textContent = String(Math.round(target * smooth(k)));
+            if (k < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        } else if (!en.isIntersecting) { el._run = false; }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-count]').forEach(el => cio.observe(el));
+  }
+}
+</script>
+</body>
+</html>

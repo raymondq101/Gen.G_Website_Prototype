@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+html{scroll-behavior:smooth}
+body{margin:0;background:#f2efe8;font-family:Outfit,system-ui,sans-serif;color:#26231d}
+a{color:#26231d;text-decoration:none}a:hover{color:#9c8500}
+body{transition:background-color .7s ease}
+nav,#duration,#schedule,#teams{transition:color .6s ease}
+body.om-dark{background:#151310}
+body.om-dark nav{background:rgba(21,19,16,.78)!important;border-bottom-color:rgba(242,239,232,.08)!important}
+body.om-dark a{color:#ece7db}body.om-dark a:hover{color:#c8ab13}
+body.om-dark :is(#duration,#schedule,#teams){color:#f0ece0}
+body.om-dark :is(#duration,#schedule,#teams) [style*="background: rgba(255, 255, 255"]{background:rgba(30,27,22,.85)!important;border-color:rgba(242,239,232,.12)!important;transition:background-color .6s ease,border-color .6s ease}
+body.om-dark :is(nav,#duration,#schedule,#teams) [style*="color: rgba(38, 35, 29"]{color:rgba(240,236,224,.75)!important}
+body.om-dark :is(#duration,#schedule,#teams) [style*="color: rgb(38, 35, 29)"]{color:#f0ece0!important}
+body.om-dark :is(#duration,#schedule,#teams) [style*="-webkit-text-stroke"]{-webkit-text-stroke-color:#f0ece0!important}
+body.om-dark nav [style*="border: 1px solid rgba(38, 35, 29"]{border-color:rgba(240,236,224,.35)!important;color:#f0ece0!important}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(184,155,0,.45)}100%{box-shadow:0 0 0 12px rgba(184,155,0,0)}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes cue{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(6px);opacity:1}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</helmet>
+<div style="position:fixed;inset:0;z-index:0">
+  <x-import component-from-global-scope="academy-scene" from="./academy-scene.js" hint-size="100%,100%"></x-import>
+</div>
+<sc-if value="{{ grain }}" hint-placeholder-val="{{ true }}">
+  <div style="position:fixed;inset:0;z-index:3;pointer-events:none;opacity:.05;background-image:repeating-linear-gradient(0deg,#26231d 0 1px,transparent 1px 3px)"></div>
+</sc-if>
+
+<nav style="position:fixed;top:0;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px 48px;background:rgba(242,239,232,.75);backdrop-filter:blur(14px);border-bottom:1px solid rgba(38,35,29,.08)">
+  <div style="display:flex;align-items:center;gap:18px">
+  <a href="GenG.dc.html" style="white-space:nowrap;font:600 11.5px 'JetBrains Mono',monospace;letter-spacing:.08em;border:1px solid rgba(38,35,29,.25);border-radius:99px;padding:6px 13px" style-hover="background:#26231d;color:#f2efe8">← GEN.G</a>
+  <a href="#top" style="display:flex;align-items:center;gap:11px"><span style="width:30px;height:30px;background:#26231d;color:#c8ab13;border-radius:7px;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">GG</span><span style="font-weight:650;letter-spacing:.05em;font-size:13.5px">GEN.G GLOBAL ACADEMY</span></a>
+  </div>
+  <div style="display:flex;align-items:center;gap:30px;font-size:13.5px;font-weight:500">
+    <a href="#facility">Facility</a><a href="#packages">Packages</a><a href="#duration">Duration</a><a href="#schedule">Schedule</a><a href="#teams">Teams</a>
+    <span onClick="{{ toggleLang }}" style="display:inline-flex;background:rgba(38,35,29,.06);border-radius:99px;padding:3px;font:600 11.5px 'JetBrains Mono',monospace;cursor:pointer;user-select:none"><span style="{{ enPillStyle }}">EN</span><span style="{{ krPillStyle }}">KR</span></span>
+    <a href="#contact" style="border:1px solid rgba(38,35,29,.3);padding:9px 20px;border-radius:99px;font-weight:600;transition:all .35s cubic-bezier(.22,1,.36,1)" style-hover="background:#26231d;color:#f2efe8">Book a consultation</a>
+  </div>
+</nav>
+
+<main id="top" style="position:relative;z-index:1">
+
+<section data-screen-label="Hero" style="min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 64px 80px;box-sizing:border-box;position:relative">
+  <div data-reveal="100" style="opacity:0;transform:translateY(26px);font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#9c8500">GEN.G GLOBAL ESPORTS ACADEMY · SEOUL, KR</div>
+  <h1 style="margin:22px 0 0;font-weight:800;line-height:.96;letter-spacing:-.035em;font-size:clamp(64px,9vw,132px)">
+    <span data-reveal="220" style="display:block;opacity:0;transform:translateY(26px)">TRAIN WHERE</span>
+    <span data-reveal="360" style="display:block;opacity:0;transform:translateY(26px);color:transparent;-webkit-text-stroke:2.5px #26231d">LEGENDS</span>
+    <span data-reveal="500" style="display:block;opacity:0;transform:translateY(26px)">ARE MADE<span style="color:#b89b00">.</span></span>
+  </h1>
+  <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:44px;flex-wrap:wrap;gap:28px">
+    <div data-reveal="650" style="opacity:0;transform:translateY(26px);max-width:430px;font-size:17px;line-height:1.6;color:rgba(38,35,29,.78);text-wrap:pretty">Pro-grade bootcamps at Gen.G headquarters in Gangnam — dedicated practice rooms, daily high-level scrims, and an ops team that runs everything else.</div>
+  </div>
+  <div style="position:absolute;left:64px;bottom:30px;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:rgba(38,35,29,.72)">37.4979°N 127.0276°E · GANGNAM-GU</div>
+  <div style="position:absolute;left:50%;bottom:26px;transform:translateX(-50%);font:500 11px 'JetBrains Mono',monospace;letter-spacing:.3em;color:rgba(38,35,29,.75);animation:cue 2.2s ease-in-out infinite">SCROLL ▾</div>
+  <div style="position:absolute;right:64px;bottom:30px;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:rgba(38,35,29,.72)">LIVE MAP · SEOUL</div>
+</section>
+
+<sc-if value="{{ marquee }}" hint-placeholder-val="{{ true }}">
+<div style="background:#26231d;color:#c8ab13;overflow:hidden;padding:11px 0;transform:rotate(-.6deg) scale(1.02)">
+  <div style="display:flex;white-space:nowrap;font:600 13px 'JetBrains Mono',monospace;letter-spacing:.18em;animation:marquee 26s linear infinite;width:max-content">
+    <span style="padding-right:40px">RTX 4070 ▸ 360HZ ▸ 24/7 KEYCARD ▸ DAILY SCRIMS ▸ AIRPORT PICKUP ▸ PRO COACHING ▸ GEN.G HQ ▸ GGX ▸ SEOUL ▸&nbsp;</span>
+    <span style="padding-right:40px">RTX 4070 ▸ 360HZ ▸ 24/7 KEYCARD ▸ DAILY SCRIMS ▸ AIRPORT PICKUP ▸ PRO COACHING ▸ GEN.G HQ ▸ GGX ▸ SEOUL ▸&nbsp;</span>
+  </div>
+</div>
+</sc-if>
+
+<section id="facility" data-screen-label="Facility" style="padding:140px 64px;scroll-margin-top:60px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div data-reveal="0" style="opacity:0;transform:translateY(26px);display:flex;align-items:baseline;gap:18px">
+      <span style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#9c8500">01 ▸ THE FACILITY</span>
+    </div>
+    <h2 data-reveal="80" style="opacity:0;transform:translateY(26px);margin:18px 0 0;font-size:clamp(38px,4.6vw,60px);font-weight:750;letter-spacing:-.03em;line-height:1.05;max-width:640px">Every seat is a pro seat.</h2>
+    <p data-reveal="160" style="opacity:0;transform:translateY(26px);margin:18px 0 0;font-size:16.5px;line-height:1.6;color:rgba(38,35,29,.78);max-width:520px;text-wrap:pretty">Identical practice-room builds, tested for framerate stability before your team lands.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:48px">
+      <div data-reveal="200" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.08);border-radius:18px;padding:28px 24px;transition:all .35s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px -20px rgba(38,35,29,.3)">
+        <div style="font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.2em;color:rgba(38,35,29,.72)">GPU</div>
+        <div style="font-size:38px;font-weight:800;margin-top:14px;letter-spacing:-.02em">RTX <span data-count="4070" style="color:#9c8500">0</span></div>
+        <div style="font:500 12.5px 'JetBrains Mono',monospace;color:rgba(38,35,29,.72);margin-top:8px;line-height:1.55;letter-spacing:-.01em">NVIDIA GeForce, per machine</div>
+      </div>
+      <div data-reveal="280" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.08);border-radius:18px;padding:28px 24px;transition:all .35s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px -20px rgba(38,35,29,.3)">
+        <div style="font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.2em;color:rgba(38,35,29,.72)">CPU</div>
+        <div style="font-size:38px;font-weight:800;margin-top:14px;letter-spacing:-.02em">i7 <span style="color:#9c8500">13/14</span></div>
+        <div style="font:500 12.5px 'JetBrains Mono',monospace;color:rgba(38,35,29,.72);margin-top:8px;line-height:1.55;letter-spacing:-.01em">13th &amp; 14th Gen Intel Core</div>
+      </div>
+      <div data-reveal="360" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.08);border-radius:18px;padding:28px 24px;transition:all .35s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px -20px rgba(38,35,29,.3)">
+        <div style="font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.2em;color:rgba(38,35,29,.72)">MEMORY</div>
+        <div style="font-size:38px;font-weight:800;margin-top:14px;letter-spacing:-.02em"><span data-count="32">0</span><span style="color:#9c8500">GB</span></div>
+        <div style="font:500 12.5px 'JetBrains Mono',monospace;color:rgba(38,35,29,.72);margin-top:8px;line-height:1.55;letter-spacing:-.01em">DDR RAM, every build</div>
+      </div>
+      <div data-reveal="440" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.82);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.08);border-radius:18px;padding:28px 24px;transition:all .35s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-4px);box-shadow:0 18px 40px -20px rgba(38,35,29,.3)">
+        <div style="font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.2em;color:rgba(38,35,29,.72)">DISPLAY</div>
+        <div style="font-size:38px;font-weight:800;margin-top:14px;letter-spacing:-.02em"><span data-count="360">0</span><span style="color:#9c8500">Hz</span></div>
+        <div style="font:500 12.5px 'JetBrains Mono',monospace;color:rgba(38,35,29,.72);margin-top:8px;line-height:1.55;letter-spacing:-.01em">LG UltraGear 25GR75FG · 1080p</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="packages" data-screen-label="Packages" style="padding:60px 64px 140px;scroll-margin-top:60px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div data-reveal="0" style="opacity:0;transform:translateY(26px)"><span style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#9c8500">02 ▸ PACKAGES</span></div>
+    <h2 data-reveal="80" style="opacity:0;transform:translateY(26px);margin:18px 0 0;font-size:clamp(38px,4.6vw,60px);font-weight:750;letter-spacing:-.03em;line-height:1.05">Two ways to bootcamp.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px">
+      <div data-reveal="160" style="opacity:0;transform:translateY(26px);background:rgba(38,35,29,.94);backdrop-filter:blur(12px);color:#f2efe8;border-radius:22px;padding:40px 38px;transition:all .4s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px);box-shadow:0 26px 60px -24px rgba(38,35,29,.72)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:#c8ab13">GEN.G HQ</span>
+          <span style="font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.12em;border:1px solid rgba(242,239,232,.25);border-radius:99px;padding:5px 12px;color:rgba(242,239,232,.7)">GANGNAM · B1</span>
+        </div>
+        <div style="font-size:30px;font-weight:750;letter-spacing:-.02em;margin-top:20px">HQ Practice Room</div>
+        <p style="font-size:15px;line-height:1.6;color:rgba(242,239,232,.65);margin:12px 0 0;text-wrap:pretty">Quiet, focused, fully dedicated esports environment inside Gen.G headquarters — with staff a hallway away.</p>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:28px;font-size:14.5px">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>24/7 keycard access to your room</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>On-staff support for technical &amp; logistics issues</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Meals &amp; food-ordering service</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Quiet space, distraction-free practice floor</div>
+        </div>
+      </div>
+      <div data-reveal="240" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:40px 38px;transition:all .4s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px);box-shadow:0 26px 60px -24px rgba(38,35,29,.35)">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:#9c8500">GGX</span>
+          <span style="font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.12em;border:1px solid rgba(38,35,29,.18);border-radius:99px;padding:5px 12px;color:rgba(38,35,29,.72)">CITY CENTER</span>
+        </div>
+        <div style="font-size:30px;font-weight:750;letter-spacing:-.02em;margin-top:20px">GGX Team Rooms</div>
+        <p style="font-size:15px;line-height:1.6;color:rgba(38,35,29,.78);margin:12px 0 0;text-wrap:pretty">Steps from Seoul's food streets and landmark destinations — train hard, then walk out into the city.</p>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:28px;font-size:14.5px">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Dedicated 6-PC team room — RTX 5070, LG 32&quot; 4K 240Hz</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Or dedicated FPS zone — 24&quot; BenQ monitors</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>In-house food — GGX &amp; Ottogi menu</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Close to popular Korean destinations &amp; food</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="duration" data-screen-label="Duration" style="padding:0 64px 140px;scroll-margin-top:60px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div data-reveal="0" style="opacity:0;transform:translateY(26px)"><span style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#9c8500">03 ▸ DURATION</span></div>
+    <h2 data-reveal="80" style="opacity:0;transform:translateY(26px);margin:18px 0 0;font-size:clamp(38px,4.6vw,60px);font-weight:750;letter-spacing:-.03em;line-height:1.05">Pick your block.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:48px;align-items:stretch">
+      <div data-reveal="160" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:36px 32px;transition:all .4s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px);box-shadow:0 22px 50px -24px rgba(38,35,29,.35)">
+        <div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:rgba(38,35,29,.72)">SHORT</div>
+        <div style="font-size:44px;font-weight:800;letter-spacing:-.03em;margin-top:16px">7–14<span style="font-size:17px;font-weight:500;color:rgba(38,35,29,.75)"> days</span></div>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(38,35,29,.78);margin:14px 0 0;text-wrap:pretty">A focused stint before a tournament — sharpen, scrim, ship out.</p>
+      </div>
+      <div data-reveal="240" style="opacity:0;transform:translateY(26px);background:rgba(38,35,29,.94);backdrop-filter:blur(12px);color:#f2efe8;border-radius:22px;padding:36px 32px;position:relative;transition:all .4s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px);box-shadow:0 26px 60px -24px rgba(38,35,29,.72)">
+        <div style="position:absolute;top:-13px;left:32px;background:#b89b00;color:#fff;font:600 10.5px 'JetBrains Mono',monospace;letter-spacing:.14em;border-radius:99px;padding:6px 14px">MOST POPULAR</div>
+        <div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:#c8ab13">STANDARD</div>
+        <div style="font-size:44px;font-weight:800;letter-spacing:-.03em;margin-top:16px">14–21<span style="font-size:17px;font-weight:500;color:rgba(242,239,232,.55)"> days</span></div>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(242,239,232,.65);margin:14px 0 0;text-wrap:pretty">The full prep cycle — settle in, build form, peak on schedule.</p>
+      </div>
+      <div data-reveal="320" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:36px 32px;transition:all .4s cubic-bezier(.22,1,.36,1)" style-hover="transform:translateY(-5px);box-shadow:0 22px 50px -24px rgba(38,35,29,.35)">
+        <div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:rgba(38,35,29,.72)">EXTENDED</div>
+        <div style="font-size:44px;font-weight:800;letter-spacing:-.03em;margin-top:16px">21–35<span style="font-size:17px;font-weight:500;color:rgba(38,35,29,.75)"> days</span></div>
+        <p style="font-size:14.5px;line-height:1.6;color:rgba(38,35,29,.78);margin:14px 0 0;text-wrap:pretty">A deep training block — thorough review, rebuild, and improvement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="schedule" data-screen-label="Schedule" style="padding:0 64px 140px;scroll-margin-top:60px">
+  <div style="max-width:920px;margin:0 auto">
+    <div data-reveal="0" style="opacity:0;transform:translateY(26px)"><span style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#9c8500">04 ▸ HOW IT RUNS</span></div>
+    <h2 data-reveal="80" style="opacity:0;transform:translateY(26px);margin:18px 0 0;font-size:clamp(38px,4.6vw,60px);font-weight:750;letter-spacing:-.03em;line-height:1.05">Wheels-down to wheels-up.</h2>
+    <div style="display:flex;flex-direction:column;gap:18px;margin-top:48px">
+      <div data-reveal="140" style="opacity:0;transform:translateY(26px);display:grid;grid-template-columns:170px 1fr;gap:28px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:34px 34px">
+        <div><div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.18em;color:#9c8500">PHASE 01</div><div style="font-size:21px;font-weight:700;margin-top:10px;line-height:1.2">Pre-arrival</div></div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px;color:rgba(38,35,29,.78)">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Team consultation — size, dates, requirements confirmed</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Custom quote issued within 2 business days</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Hotel, practice room &amp; airport transfer booked</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Keycards prepared for 24/7 facility access</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>All PCs tested for framerate stability; peripherals checked</div>
+        </div>
+      </div>
+      <div data-reveal="220" style="opacity:0;transform:translateY(26px);display:grid;grid-template-columns:170px 1fr;gap:28px;background:rgba(38,35,29,.94);backdrop-filter:blur(12px);color:#f2efe8;border-radius:22px;padding:34px 34px">
+        <div><div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.18em;color:#c8ab13">PHASE 02</div><div style="font-size:21px;font-weight:700;margin-top:10px;line-height:1.2">Arrival &amp; training</div></div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px;color:rgba(242,239,232,.85)">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Airport pickup via Klook transfer · hotel check-in &amp; setup</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Keycard distribution &amp; facility orientation</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Full access to B1 practice room — 24/7 keycard entry</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Breakfast &amp; lunch coordinated daily</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Bootcamp Manager on-site weekdays 10:00–19:00 · remote weekend support</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#c8ab13;font-weight:700">✓</span>Hardware issues escalated immediately · daily ops check-ins</div>
+        </div>
+      </div>
+      <div data-reveal="300" style="opacity:0;transform:translateY(26px);display:grid;grid-template-columns:170px 1fr;gap:28px;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:34px 34px">
+        <div><div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.18em;color:#9c8500">PHASE 03</div><div style="font-size:21px;font-weight:700;margin-top:10px;line-height:1.2">Departure</div></div>
+        <div style="display:flex;flex-direction:column;gap:11px;font-size:14.5px;color:rgba(38,35,29,.78)">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Hotel checkout coordinated with your Bootcamp Manager</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Keycards returned · airport transfer confirmed &amp; booked</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Final check-out assistance from the ops team</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="teams" data-screen-label="Teams" style="padding:0 64px 140px;scroll-margin-top:60px">
+  <div style="max-width:1180px;margin:0 auto">
+    <div data-reveal="0" style="opacity:0;transform:translateY(26px)"><span style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#9c8500">05 ▸ WHO IT'S FOR</span></div>
+    <h2 data-reveal="80" style="opacity:0;transform:translateY(26px);margin:18px 0 0;font-size:clamp(38px,4.6vw,60px);font-weight:750;letter-spacing:-.03em;line-height:1.05">Pros sharpen. Collegiate levels up.</h2>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:48px">
+      <div data-reveal="160" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:40px 38px">
+        <div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:#9c8500">PRO TEAMS</div>
+        <div style="font-size:26px;font-weight:750;letter-spacing:-.02em;margin-top:16px">Peak on schedule.</div>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:24px;font-size:14.5px;color:rgba(38,35,29,.78)">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Daily high-level scrims in-region</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Networking with teams around major events</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Low ping, structured schedules, robust infrastructure</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Bootcamp Manager, private rooms, VOD space, travel logistics handled</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>At GGX: private team rooms or dedicated FPS zones</div>
+        </div>
+      </div>
+      <div data-reveal="240" style="opacity:0;transform:translateY(26px);background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border:1px solid rgba(38,35,29,.09);border-radius:22px;padding:40px 38px;position:relative;overflow:hidden">
+        <div style="font:600 11px 'JetBrains Mono',monospace;letter-spacing:.2em;color:#9c8500">COLLEGIATE &amp; TIER 2</div>
+        <div style="font-size:26px;font-weight:750;letter-spacing:-.02em;margin-top:16px">Learn from the inside.</div>
+        <div style="display:flex;flex-direction:column;gap:13px;margin-top:24px;font-size:14.5px;color:rgba(38,35,29,.78);max-width:56%">
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>1-on-1 coaching with pro teams</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Guest sessions with pro players</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Networking across the esports industry</div>
+          <div style="display:flex;gap:12px;align-items:baseline"><span style="color:#9c8500;font-weight:700">✓</span>Career development — learn how pros actually train</div>
+        </div>
+        <div style="position:absolute;right:-14px;bottom:-10px;width:46%;height:88%">
+          <sc-if value="{{ mascot3d }}" hint-placeholder-val="{{ true }}">
+            <x-import component-from-global-scope="genrang-3d" from="./genrang-3d.js" hint-size="100%,100%"></x-import>
+          </sc-if>
+          <sc-if value="{{ mascot2d }}" hint-placeholder-val="{{ false }}">
+            <img src="uploads/mascot_upload-1784125272735.png" alt="Genrang" style="position:absolute;right:24px;bottom:0;width:70%;animation:bob 3.6s ease-in-out infinite">
+          </sc-if>
+        </div>
+        <div style="position:absolute;right:26px;bottom:18px;font:500 10.5px 'JetBrains Mono',monospace;letter-spacing:.14em;color:rgba(38,35,29,.4)">GENRANG · 3D</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-screen-label="Contact" style="padding:0 64px 90px;scroll-margin-top:60px">
+  <div data-reveal="0" style="opacity:0;transform:translateY(26px);max-width:1180px;margin:0 auto;background:rgba(38,35,29,.95);backdrop-filter:blur(12px);color:#f2efe8;border-radius:28px;padding:80px 64px;text-align:center;position:relative;overflow:hidden">
+    <div style="font:600 12px 'JetBrains Mono',monospace;letter-spacing:.26em;color:#c8ab13">06 ▸ BOOK</div>
+    <div style="font-size:clamp(40px,5vw,64px);font-weight:800;letter-spacing:-.03em;line-height:1.02;margin-top:20px">Bring your team<br>to Seoul<span style="color:#b89b00">.</span></div>
+    <p style="font-size:16.5px;line-height:1.6;color:rgba(242,239,232,.65);margin:20px auto 0;max-width:440px;text-wrap:pretty">Tell us your roster size, dates, and title. Custom quote within 2 business days — no prices to haggle, no forms to fight.</p>
+    <div style="display:flex;gap:16px;justify-content:center;margin-top:34px">
+      <a href="mailto:gengcamp@geng.gg?subject=Bootcamp%20consultation" style="background:#b89b00;color:#fff;padding:16px 34px;border-radius:99px;font-weight:650;font-size:16px;transition:all .35s cubic-bezier(.22,1,.36,1)" style-hover="background:#f2efe8;color:#26231d;transform:translateY(-2px)">Book a consultation</a>
+    </div>
+    <div style="margin-top:26px;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.18em;color:rgba(242,239,232,.4)">RESPONSE &lt; 48H · EN / KR</div>
+  </div>
+  <div style="max-width:1180px;margin:34px auto 0;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;font:500 11px 'JetBrains Mono',monospace;letter-spacing:.14em;color:rgba(38,35,29,.72)">
+    <span>© 2026 GEN.G GLOBAL ESPORTS ACADEMY</span>
+    <span>SEOUL · GANGNAM-GU · 37.4979°N 127.0276°E</span>
+    <span>MADE WITH GENRANG ▸</span>
+  </div>
+</section>
+
+</main>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;grain&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;marquee&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;mascot3d&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Genrang&quot;}}">
+class Component extends DCLogic {
+  state = { lang: 'en' };
+  renderVals() {
+    const lang = this.state.lang;
+    const on = 'background:#26231d;color:#f2efe8;border-radius:99px;padding:4px 10px;transition:all .3s';
+    const off = 'padding:4px 10px;color:rgba(38,35,29,.75);transition:all .3s';
+    return {
+      grain: this.props.grain ?? true,
+      marquee: this.props.marquee ?? true,
+      mascot3d: (this.props.mascot3d ?? true),
+      mascot2d: !(this.props.mascot3d ?? true),
+      enPillStyle: lang === 'en' ? on : off,
+      krPillStyle: lang === 'kr' ? on : off,
+      toggleLang: () => this.setState(s => ({ lang: s.lang === 'en' ? 'kr' : 'en' }))
+    };
+  }
+  componentDidMount() {
+    const ease = 'cubic-bezier(.22,1,.36,1)';
+    const obs = new IntersectionObserver((entries) => {
+      for (const en of entries) {
+        if (!en.isIntersecting) continue;
+        const el = en.target;
+        el.style.setProperty('transition', `opacity .95s ${ease} ${parseInt(el.getAttribute('data-reveal') || '0', 10)}ms, transform .95s ${ease} ${parseInt(el.getAttribute('data-reveal') || '0', 10)}ms`, 'important');
+        el.style.setProperty('opacity', '1', 'important');
+        el.style.setProperty('transform', 'none', 'important');
+        el._revealed = true;
+        obs.unobserve(el);
+        el.querySelectorAll('[data-count]').forEach((c) => this._count(c));
+      }
+    }, { threshold: 0.12 });
+    // template streams in after mount — keep scanning for new [data-reveal] elements
+    const scan = () => {
+      document.querySelectorAll('[data-reveal]').forEach((el) => {
+        if (!el._observed) { el._observed = true; obs.observe(el); }
+      });
+    };
+    scan();
+    this._scanTimer = setInterval(scan, 350);
+    setTimeout(() => clearInterval(this._scanTimer), 15000);
+    this._obs = obs;
+  }
+  _count(el) {
+    if (el._counted) return; el._counted = true;
+    const target = parseInt(el.getAttribute('data-count'), 10);
+    const t0 = performance.now(), dur = 1300;
+    const step = (now) => {
+      const t = Math.min(1, (now - t0) / dur);
+      const e = 1 - Math.pow(1 - t, 4);
+      el.textContent = Math.round(target * e).toLocaleString().replace(',', '');
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+  componentWillUnmount() { if (this._obs) this._obs.disconnect(); }
+}
+</script>
+</body>
+</html>

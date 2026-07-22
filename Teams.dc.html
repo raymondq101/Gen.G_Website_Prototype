@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Tourney:wght@500;700;900&family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;padding:0;background:#EFE7D2;}
+body{overflow-x:hidden;}
+a{color:#2A1B0B;text-decoration:none;}
+a:hover{color:#B98A00;}
+::selection{background:#F2B41B;color:#2A1B0B;}
+@keyframes grainShift{0%{transform:translate(0,0)}25%{transform:translate(-38px,22px)}50%{transform:translate(26px,-32px)}75%{transform:translate(-18px,-12px)}100%{transform:translate(0,0)}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+</style>
+</helmet>
+<div style="background:#EFE7D2; color:#2A1B0B; font-family:'Space Grotesk',sans-serif; overflow-x:clip; position:relative; min-height:100vh;">
+  <div id="grain" style="position:fixed; inset:-90px; z-index:1200; pointer-events:none; opacity:0.07; mix-blend-mode:multiply; background-image:url(&quot;data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='240' height='240' filter='url(%23n)'/></svg>&quot;); background-repeat:repeat; animation:grainShift .7s steps(2,end) infinite;"></div>
+  <div style="position:fixed; top:0; left:0; right:0; z-index:1100; height:3px; background:rgba(42,27,11,.12);"><div id="pbar" style="height:100%; width:0%; background:#F2B41B; border-right:2px solid #2A1B0B;"></div></div>
+  <nav style="position:fixed; top:3px; left:0; right:0; z-index:1000; display:flex; align-items:center; justify-content:space-between; padding:14px 28px; background:rgba(239,231,210,.82); backdrop-filter:blur(8px); border-bottom:2px solid #2A1B0B;">
+    <a href="GenG.dc.html" style="font-family:'Tourney',sans-serif; font-weight:900; font-size:15px; letter-spacing:.06em;">GEN.G <span style="color:#B98A00;">//</span> TEAMS</a>
+    <div style="display:flex; gap:26px; align-items:center; font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.14em;">
+      <a href="GenG.dc.html" style-hover="color:#B98A00;">HOME</a>
+      <div style="position:relative;" onMouseEnter="{{ddOn}}" onMouseLeave="{{ddOff}}">
+        <a href="#lck" style-hover="color:#B98A00;">TEAMS ▾</a>
+        <div style="display:{{ddDisp}}; position:absolute; top:100%; left:50%; transform:translateX(-50%); padding-top:12px;">
+          <div style="background:#EFE7D2; border:2px solid #2A1B0B; box-shadow:5px 5px 0 #2A1B0B; display:flex; flex-direction:column; min-width:220px;">
+            <a href="#lck" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">LCK</a>
+            <a href="#challengers" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">LCK CHALLENGERS</a>
+            <a href="#valorant" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">VALORANT</a>
+            <a href="#racing" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">MOBIL1 RACING</a>
+            <a href="#pubg-mobile" style="padding:11px 16px; border-bottom:1px dashed rgba(42,27,11,.3);" style-hover="background:#F2B41B;">PUBG MOBILE</a>
+            <a href="#pubg" style="padding:11px 16px;" style-hover="background:#F2B41B;">PUBG</a>
+          </div>
+        </div>
+      </div>
+      <a href="Academy.dc.html" style-hover="color:#B98A00;">ACADEMY</a>
+      <a href="Practicum.dc.html" style-hover="color:#B98A00;">PRACTICUM</a>
+      <a href="Bootcamp.dc.html" style-hover="color:#B98A00;">BOOTCAMP</a>
+      <a href="Academy.dc.html" style="background:#F2B41B; border:2px solid #2A1B0B; padding:6px 14px; box-shadow:3px 3px 0 #2A1B0B; cursor:pointer;" style-hover="transform:translate(-2px,-2px); box-shadow:5px 5px 0 #2A1B0B;">JOIN ★</a>
+    </div>
+  </nav>
+
+  <header data-screen-label="Team hero" style="padding:150px 28px 40px; max-width:1180px; margin:0 auto; position:relative;">
+    <div style="position:absolute; right:8px; top:110px; width:150px; pointer-events:none;">
+      <img src="assets/genrang-dab.png" alt="GenRang dabbing" style="width:100%; display:block; animation:floaty 4.6s ease-in-out infinite;">
+    </div>
+    <div data-stagger="1" style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:22px;">GEN.G // TEAMS — {{ team.game }}</div>
+    <div data-stagger="1" style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(52px,9.5vw,124px); line-height:.9; color:transparent; -webkit-text-stroke:3px #2A1B0B; text-wrap:balance;">{{ team.name }}</div>
+    <p data-stagger="1" style="font-size:19px; line-height:1.6; max-width:56ch; margin:28px 0 0; text-wrap:pretty;">{{ team.desc }}</p>
+  </header>
+
+  <div data-screen-label="Accolade marquee" style="background:#F2B41B; border-top:2px solid #2A1B0B; border-bottom:2px solid #2A1B0B; overflow:hidden; padding:12px 0; margin-top:26px;">
+    <div style="display:flex; width:max-content; animation:marquee 24s linear infinite; font-family:'Tourney',sans-serif; font-weight:900; font-size:20px; white-space:nowrap;">
+      <div style="padding-right:28px;">{{ team.tape }}</div>
+      <div style="padding-right:28px;">{{ team.tape }}</div>
+    </div>
+  </div>
+
+  <div data-screen-label="Team switcher" style="max-width:1180px; margin:0 auto; padding:42px 28px 0; display:flex; gap:12px; flex-wrap:wrap;">
+    <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="6">
+      <a href="#{{ tb.slug }}" style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.1em; border:2px solid #2A1B0B; padding:9px 16px; background:{{ tb.bg }}; color:{{ tb.fg }}; box-shadow:3px 3px 0 #2A1B0B; cursor:pointer;" style-hover="transform:translate(-2px,-2px); box-shadow:5px 5px 0 #2A1B0B;">{{ tb.label }}</a>
+    </sc-for>
+  </div>
+
+  <section data-screen-label="Roster grid" style="max-width:1180px; margin:0 auto; padding:56px 28px 90px;">
+    <div data-stagger="1" style="font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:.24em; color:#B98A00; margin-bottom:34px;">ROSTER — {{ team.count }} MEMBERS</div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:28px;">
+      <sc-for list="{{ players }}" as="p" hint-placeholder-count="5">
+        <div data-stagger="1" style="border:2px solid #2A1B0B; background:#E7DCC0; box-shadow:6px 6px 0 #2A1B0B; display:flex; flex-direction:column; position:relative;" style-hover="background:#F5EBD2; transform:translate(-2px,-2px); box-shadow:8px 8px 0 #2A1B0B;">
+          <div style="position:absolute; top:-6px; left:-6px; width:22px; height:22px; border-top:4px solid #F2B41B; border-left:4px solid #F2B41B; z-index:3; pointer-events:none;"></div>
+          <div style="position:absolute; bottom:-6px; right:-6px; width:22px; height:22px; border-bottom:4px solid #F2B41B; border-right:4px solid #F2B41B; z-index:3; pointer-events:none;"></div>
+          <div style="position:relative; margin:9px 9px 0; border:2px solid #2A1B0B; outline:2px dashed rgba(185,138,0,.55); outline-offset:3px;">
+          <div style="position:relative; aspect-ratio:4/5; overflow:hidden; background:repeating-linear-gradient(-45deg,#E7DCC0 0 14px,#EFE7D2 14px 28px);">
+            <div style="position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-family:'Tourney',sans-serif; font-weight:900; font-size:96px; color:transparent; -webkit-text-stroke:2.5px rgba(42,27,11,.35);">{{ p.initial }}</div>
+            <div style="position:absolute; inset:0; background:radial-gradient(ellipse at 50% 100%, rgba(242,180,27,.28), transparent 62%); pointer-events:none;"></div>
+            {{ p.imgEl }}
+            <div style="position:absolute; top:10px; left:10px; font-family:'Space Mono',monospace; font-size:10.5px; font-weight:700; letter-spacing:.08em; background:{{ p.tagBg }}; color:{{ p.tagFg }}; border:2px solid #2A1B0B; padding:3px 8px; z-index:2;">{{ p.role }}</div>
+            <img src="assets/genrang-cheer.png" alt="" style="position:absolute; right:-8px; bottom:-6px; width:58px; transform:rotate(-8deg); filter:drop-shadow(-2px 2px 0 rgba(42,27,11,.3)); z-index:2; pointer-events:none;">
+          </div>
+          </div>
+          <div style="padding:18px 18px 20px; display:flex; flex-direction:column; gap:6px;">
+            <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:21px; line-height:1.05;">{{ p.ign }}</div>
+            <div style="font-family:'Space Mono',monospace; font-size:12px; letter-spacing:.08em; opacity:.75;">{{ p.name }}</div>
+            <div style="display:flex; gap:14px; margin-top:8px; font-family:'Space Mono',monospace; font-size:11px; font-weight:700; letter-spacing:.12em;">
+              <sc-if value="{{ p.x }}" hint-placeholder-val="{{ false }}"><a href="{{ p.x }}" style-hover="color:#B98A00;">X ↗</a></sc-if>
+              <sc-if value="{{ p.ig }}" hint-placeholder-val="{{ false }}"><a href="{{ p.ig }}" style-hover="color:#B98A00;">IG ↗</a></sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section data-screen-label="Bootcamp cross-link" style="background:#2A1B0B; color:#EFE7D2; padding:80px 28px;">
+    <div style="max-width:1180px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; gap:32px; flex-wrap:wrap;">
+      <div>
+        <div style="font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:.24em; color:#F2B41B; margin-bottom:14px;">WANT TO SCRIM THEM?</div>
+        <div style="font-family:'Tourney',sans-serif; font-weight:900; font-size:clamp(26px,3.8vw,44px); line-height:1;">BOOK AN ACADEMY BOOTCAMP IN SEOUL</div>
+      </div>
+      <a href="Academy.dc.html" style="font-family:'Tourney',sans-serif; font-weight:700; font-size:15px; background:#F2B41B; color:#2A1B0B; border:3px solid #EFE7D2; padding:15px 28px; box-shadow:6px 6px 0 #EFE7D2; cursor:pointer;" style-hover="transform:translate(-3px,-3px); box-shadow:9px 9px 0 #EFE7D2; color:#2A1B0B;">ENTER THE ACADEMY →</a>
+    </div>
+  </section>
+
+  <footer data-screen-label="Footer" style="background:#2A1B0B; color:#EFE7D2; padding:10px 28px 40px;">
+    <div style="max-width:1180px; margin:0 auto; border-top:1px dashed rgba(239,231,210,.3); padding-top:22px; display:flex; justify-content:space-between; gap:18px; flex-wrap:wrap; font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.1em; opacity:.7;">
+      <div>© 2026 GEN.G — CONCEPT REBUILD · ROSTER DATA + PHOTOS VIA GENG.GG</div>
+      <div style="display:flex; gap:22px;"><a href="GenG.dc.html" style="color:#EFE7D2;">HOME</a><a href="Academy.dc.html" style="color:#EFE7D2;">ACADEMY</a></div>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { dd: false, slug: (location.hash || '#lck').slice(1) };
+  static DATA() {
+    const cdn = f => 'https://geng.gg/cdn/shop/files/' + f;
+    return {
+      'lck': {
+        name: 'LCK', game: 'LEAGUE OF LEGENDS', accent: '#F2B41B', fg: '#2A1B0B',
+        desc: 'The flagship. Two-time World Champions and a perennial LCK title threat, built on the strongest mid–jungle spine in Korea.',
+        tape: '★ 2014 WORLD CHAMPIONS ★ 2017 WORLD CHAMPIONS ★ LCK ★ #TIGERNATION ',
+        players: [
+          { ign: 'Kiin', name: 'Gi In Kim', role: 'TOP', x: 'https://twitter.com/kiin_99', ig: 'https://www.instagram.com/lol_kiin/' },
+          { ign: 'Canyon', name: 'Geon Bu Kim', role: 'JUNGLE', ig: 'https://www.instagram.com/lol_canyon/' },
+          { ign: 'Chovy', name: 'Ji Hun Jung', role: 'MID', x: 'https://twitter.com/j1hu1V_chovy', ig: 'https://www.instagram.com/chovy_jihun/' },
+          { ign: 'Ruler', name: 'Park Jae-hyuk', role: 'ADC', x: 'https://www.x.com/RulereluR', ig: 'https://www.instagram.com/lol_ruler98/' },
+          { ign: 'Duro', name: 'Joo Min-kyu', role: 'SUPPORT', x: 'https://www.x.com/Duro0204', ig: 'https://instagram.com/kr_duro' }
+        ]
+      },
+      'challengers': {
+        name: 'LCK CHALLENGERS', game: 'LEAGUE OF LEGENDS — CL', accent: '#8FC9F2', fg: '#2A1B0B',
+        desc: 'The next generation of the tiger den — the development roster where future LCK starters earn their stripes.',
+        tape: '★ LCK CHALLENGERS LEAGUE ★ NEXT GEN ★ #TIGERNATION ',
+        players: [
+          { ign: 'HorangE', name: 'Moon In Hyeon', role: 'TOP', img: cdn('HorangE_GenG_Challengers.png?v=1716459197&width=800') },
+          { ign: 'Toye', name: 'Park Dong Hyun', role: 'JUNGLE', img: cdn('Toye_GenG_Challengers.png?v=1716459197&width=800') },
+          { ign: 'Dooly', name: 'Park Sol Beom', role: 'MID', img: cdn('Dooly_GenG_Challengers.png?v=1716459197&width=800') },
+          { ign: 'Slayer', name: 'Kim Jin Young', role: 'BOT', img: cdn('Slayer_GenG_Challengers.png?v=1716459197&width=800') },
+          { ign: 'Dahlia', name: 'Hwang In Jun', role: 'ROSTER', img: cdn('Dahlia_GenG_Challengers.png?v=1716459197&width=800') },
+          { ign: 'Namgung', name: 'Namgung Seong Hoon', role: 'ROSTER', img: cdn('Namgungg_GenG_Challengers.png?v=1716459197&width=800') },
+          { ign: 'Nova', name: 'Chan Ho Park', role: 'HEAD COACH', img: cdn('Nova_GenG_Challengers.png?v=1716459196&width=800') }
+        ]
+      },
+      'valorant': {
+        name: 'VALORANT', game: 'VCT PACIFIC', accent: '#F0603C', fg: '#EFE7D2',
+        desc: 'Korea\u2019s tactical FPS spearhead in VCT Pacific — aggressive utility, deep map pool, and a very loud fan section.',
+        tape: '★ VCT PACIFIC ★ GEN.G VALORANT ★ #TIGERNATION ',
+        players: [
+          { ign: 'Meteor', name: 'Kim Tae Oh', role: 'SENTINEL', img: cdn('Meteor_GenG_Valorant.png?v=1716459197&width=800'), x: 'https://x.com/Meteorvlrt', ig: 'https://www.instagram.com/99_taeoh/' },
+          { ign: 't3xture', name: 'Kim Na Ra', role: 'DUELIST', img: cdn('t3xture_GenG_Valorant.png?v=1716459197&width=800'), x: 'https://x.com/t3xture_kr', ig: 'https://www.instagram.com/t3xture_e/' },
+          { ign: 'Karon', name: 'Kim Won Tae', role: 'CONTROLLER', img: cdn('Karon_GenG_Valorant.png?v=1716459197&width=800'), x: 'https://x.com/Karonvlrt', ig: 'https://www.instagram.com/wontae_o/' },
+          { ign: 'Munchkin', name: 'Byeon Sang Beom', role: 'IGL / INITIATOR', img: cdn('Munchkin_GenG_Valorant.png?v=1716459197&width=800'), x: 'https://x.com/MUNCHKING_', ig: 'https://www.instagram.com/byunsangbeom/' },
+          { ign: 'Lakia', name: 'Kim Jong Min', role: 'INITIATOR / FLEX', img: cdn('Lakia_GenG_Valorant.png?v=1716459197&width=800'), x: 'https://x.com/lakiaone', ig: 'https://www.instagram.com/jmk_lakia/' },
+          { ign: 'Solo', name: 'Kang Geun Chul', role: 'HEAD COACH', img: cdn('GENG_Team_Pictures_Coach.png?v=1716459194&width=800'), x: 'https://x.com/solo_VLRT', ig: 'https://www.instagram.com/solovlrt/' },
+          { ign: 'Kim Hae Seong', name: 'Head of Strategy', role: 'ASST. COACH', img: cdn('GENG_Team_Pictures_Coach.png?v=1716459194&width=800'), x: 'https://x.com/hsk_vlrt', ig: 'https://www.instagram.com/hsk__kr/' }
+        ]
+      },
+      'racing': {
+        name: 'MOBIL1 RACING', game: 'ROCKET LEAGUE', accent: '#F2B41B', fg: '#2A1B0B',
+        desc: 'Gen.G Mobil1 Racing — the North American Rocket League squad flying the tiger colors at supersonic speed.',
+        tape: '★ ROCKET LEAGUE ★ GEN.G MOBIL1 RACING ★ #TIGERNATION ',
+        players: [
+          { ign: 'Jstn', name: 'Justin Morales', role: 'PLAYER', x: 'https://x.com/Its_JSTN', ig: 'https://www.instagram.com/its_jstn/' },
+          { ign: 'Rise', name: 'Finlay Ferguson', role: 'PLAYER', x: 'https://x.com/riseRL_' },
+          { ign: 'MaJicBear', name: 'Christopher Acevedo', role: 'PLAYER', x: 'https://x.com/MaJicBear' },
+          { ign: 'RawGreg', name: 'Head Coach', role: 'HEAD COACH', x: 'https://x.com/RAWGREGRL' },
+          { ign: 'kevpert', name: 'Assistant Coach', role: 'ASST. COACH', x: 'https://x.com/KevpertRL' },
+          { ign: 'thundah', name: 'Substitute', role: 'SUBSTITUTE', x: 'https://x.com/ThundahRL' }
+        ]
+      },
+      'pubg-mobile': {
+        name: 'PUBG MOBILE', game: 'PMGC', accent: '#8FC9F2', fg: '#2A1B0B',
+        desc: 'Four-man squad dropping hot on the global PUBG Mobile circuit for Korea.',
+        tape: '★ PUBG MOBILE ★ PMGC ★ #TIGERNATION ',
+        players: [
+          { ign: 'JUNI', name: 'Kim Kyung Jun', role: 'PLAYER', img: cdn('Juni_GenG_Pubg_mobile.png?v=1716459197&width=800') },
+          { ign: 'Machao', name: 'Kim Hyeon Woo', role: 'PLAYER', img: cdn('Machao_GenG_Pubg_mobile..png?v=1716459197&width=800') },
+          { ign: 'Missile', name: 'Kim Joon Soo', role: 'PLAYER', img: cdn('missile_GenG_Pubg_mobile..png?v=1716459197&width=800') },
+          { ign: 'Sayden', name: 'Jeon Min Jae', role: 'PLAYER', img: cdn('Sayden_GenG_Pubg_mobile..png?v=1716459197&width=800') }
+        ]
+      },
+      'pubg': {
+        name: 'PUBG', game: 'PWS KOREA', accent: '#F0603C', fg: '#EFE7D2',
+        desc: 'The battlegrounds unit — calculated rotations and final-circle nerve in PUBG Weekly Series Korea.',
+        tape: '★ PUBG ★ PWS KOREA ★ #TIGERNATION ',
+        players: [
+          { ign: 'Adder', name: 'Jeong Ji Hun', role: 'PLAYER', img: cdn('Adder_GenG_Pubg.png?v=1716459197&width=800') },
+          { ign: 'Barpo', name: 'Kim Min Jae', role: 'PLAYER', img: cdn('Barpo_GenG_Pubg.png?v=1716459197&width=800') },
+          { ign: 'Rex', name: 'Kim Hae Chan', role: 'PLAYER', img: cdn('Rex_GenG_Pubg.png?v=1716459197&width=800') },
+          { ign: 'Tosi', name: 'Seong Yun Mo', role: 'PLAYER', img: cdn('Tosi_GenG_Pubg.png?v=1716459197&width=800') }
+        ]
+      }
+    };
+  }
+  renderVals() {
+    const DATA = Component.DATA();
+    const slug = DATA[this.state.slug] ? this.state.slug : 'lck';
+    const t = DATA[slug];
+    const players = t.players.map(p => ({
+      ...p,
+      initial: p.ign.charAt(0).toUpperCase(),
+      tagBg: t.accent, tagFg: t.fg,
+      x: p.x || null, ig: p.ig || null, img: p.img || null,
+      imgEl: p.img ? React.createElement('img', { src: p.img, alt: p.ign + ' profile', style: { position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'bottom' } }) : null
+    }));
+    const labels = { 'lck': 'LCK', 'challengers': 'CHALLENGERS', 'valorant': 'VALORANT', 'racing': 'MOBIL1 RACING', 'pubg-mobile': 'PUBG MOBILE', 'pubg': 'PUBG' };
+    const tabs = Object.keys(labels).map(s => ({
+      slug: s, label: labels[s],
+      bg: s === slug ? '#F2B41B' : '#EFE7D2', fg: '#2A1B0B'
+    }));
+    return {
+      team: { name: t.name, game: t.game, desc: t.desc, tape: t.tape, count: String(t.players.length).padStart(2, '0') },
+      players, tabs,
+      ddDisp: this.state.dd ? 'block' : 'none',
+      ddOn: () => this.setState({ dd: true }),
+      ddOff: () => this.setState({ dd: false })
+    };
+  }
+  componentDidMount() {
+    window.addEventListener('hashchange', () => {
+      const slug = (location.hash || '#lck').slice(1);
+      this.setState({ slug, dd: false }, () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        requestAnimationFrame(() => this._enter());
+      });
+    });
+    const $ = id => document.getElementById(id);
+    const clamp = v => Math.max(0, Math.min(1, v));
+    const frame = () => {
+      const pb = $('pbar');
+      if (pb) {
+        const dh = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+        pb.style.width = (clamp(window.scrollY / dh) * 100) + '%';
+      }
+    };
+    let ticking = false;
+    window.addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(() => { frame(); ticking = false; }); } }, { passive: true });
+    frame();
+    this._enter();
+  }
+  _enter() {
+    document.querySelectorAll('[data-stagger]').forEach((el, i) => {
+      el.animate(
+        [{ opacity: 0, transform: 'translateY(24px)' }, { opacity: 1, transform: 'translateY(0)' }],
+        { duration: 600, delay: Math.min(i, 14) * 70, easing: 'cubic-bezier(.2,.7,.25,1)', fill: 'backwards' }
+      );
+    });
+  }
+}
+</script>
+</body>
+</html>
